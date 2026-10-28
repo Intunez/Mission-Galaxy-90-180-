@@ -1,0 +1,10 @@
+{
+  "rules": {
+    "missionGalaxy": {
+      "$room": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    }
+  }
+}
