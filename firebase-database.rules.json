@@ -1,1 +1,129 @@
-{"rules":{".read":false,".write":false,"galaxy":{"rooms":{"$code":{".read":"auth != null && (data.child('hostUid').val() === auth.uid || data.child('teams').child(auth.uid).exists())",".write":false}},"privateRooms":{".read":false,".write":false},"privateLimits":{".read":false,".write":false}}}}
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "galaxySpark": {
+      "credentials": {
+        "$code": {
+          ".read": "auth != null && (data.child('owner').val() === auth.uid || root.child('galaxySpark/claims/'+$code+'/'+auth.uid+'/secret').val() === data.child('secret').val())",
+          ".write": "auth != null && newData.exists() && $code.matches(/^[0-9]{6}$/) && ((!data.exists() && newData.child('owner').val() === auth.uid) || (data.exists() && data.child('createdAt').val() > now - 86400000 && (auth.uid === data.child('owner').val() || root.child('galaxySpark/claims/'+$code+'/'+auth.uid+'/secret').val() === data.child('secret').val()) && newData.child('owner').val() === auth.uid && newData.child('secret').val() === data.child('secret').val() && newData.child('createdAt').val() === data.child('createdAt').val()))",
+          ".validate": "newData.hasChildren(['owner','secret','createdAt'])",
+          "owner": {
+            ".validate": "newData.isString() && newData.val() === auth.uid"
+          },
+          "secret": {
+            ".validate": "newData.isString() && newData.val().matches(/^[a-f0-9]{48}$/)"
+          },
+          "createdAt": {
+            ".validate": "newData.isNumber() && (data.exists() ? newData.val() === data.val() : newData.val() === now)"
+          },
+          "$other": {
+            ".validate": false
+          }
+        }
+      },
+      "claims": {
+        "$code": {
+          "$uid": {
+            ".read": "auth != null && auth.uid === $uid",
+            ".write": "auth != null && auth.uid === $uid && root.child('galaxySpark/credentials/'+$code).child('createdAt').val() > now - 86400000 && newData.hasChildren(['secret','at']) && newData.child('secret').val() === root.child('galaxySpark/credentials/'+$code).child('secret').val()",
+            "secret": {
+              ".validate": "newData.isString()"
+            },
+            "at": {
+              ".validate": "newData.isNumber() && newData.val() === now"
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        }
+      },
+      "private": {
+        "$code": {
+          ".read": "auth != null && root.child('galaxySpark/credentials/'+$code).child('owner').val() === auth.uid && root.child('galaxySpark/credentials/'+$code).child('createdAt').val() > now - 86400000",
+          ".write": "auth != null && root.child('galaxySpark/credentials/'+$code).child('owner').val() === auth.uid && root.child('galaxySpark/credentials/'+$code).child('createdAt').val() > now - 86400000 && newData.exists()",
+          ".validate": "newData.hasChildren(['hostUid','createdAt','hostSeen','revision','status']) && newData.child('hostUid').val() === auth.uid && newData.child('createdAt').val() === root.child('galaxySpark/credentials/'+$code).child('createdAt').val() && newData.child('revision').isNumber() && (data.exists() ? newData.child('revision').val() === data.child('revision').val() + 1 : newData.child('revision').val() === 1)"
+        }
+      },
+      "rooms": {
+        "$code": {
+          ".read": "auth != null && (auth != null && root.child('galaxySpark/credentials/'+$code).child('owner').val() === auth.uid || root.child('galaxySpark/rooms/'+$code+'/teams/'+auth.uid).exists()) && root.child('galaxySpark/credentials/'+$code).child('createdAt').val() > now - 86400000",
+          ".write": "auth != null && root.child('galaxySpark/credentials/'+$code).child('owner').val() === auth.uid && root.child('galaxySpark/credentials/'+$code).child('createdAt').val() > now - 86400000 && newData.exists()",
+          ".validate": "newData.hasChildren(['hostUid','createdAt','hostSeen','revision','status']) && newData.child('hostUid').val() === auth.uid && newData.child('createdAt').val() === root.child('galaxySpark/credentials/'+$code).child('createdAt').val() && newData.child('revision').isNumber() && (data.exists() ? newData.child('revision').val() > data.child('revision').val() : newData.child('revision').val() === 1)"
+        }
+      },
+      "presence": {
+        "$code": {
+          ".read": "auth != null && (auth != null && root.child('galaxySpark/credentials/'+$code).child('owner').val() === auth.uid || root.child('galaxySpark/rooms/'+$code+'/teams/'+auth.uid).exists()) && root.child('galaxySpark/credentials/'+$code).child('createdAt').val() > now - 86400000",
+          ".write": "auth != null && root.child('galaxySpark/credentials/'+$code).child('owner').val() === auth.uid && root.child('galaxySpark/credentials/'+$code).child('createdAt').val() > now - 86400000 && newData.hasChildren(['online','seen'])",
+          "online": {
+            ".validate": "newData.isBoolean()"
+          },
+          "seen": {
+            ".validate": "newData.isNumber() && newData.val() === now"
+          },
+          "$other": {
+            ".validate": false
+          }
+        }
+      },
+      "requests": {
+        "$code": {
+          ".read": "auth != null && root.child('galaxySpark/credentials/'+$code).child('owner').val() === auth.uid && root.child('galaxySpark/credentials/'+$code).child('createdAt').val() > now - 86400000",
+          "$uid": {
+            ".write": "auth != null && auth.uid === $uid && root.child('galaxySpark/credentials/'+$code).child('createdAt').val() > now - 86400000 && root.child('galaxySpark/presence/'+$code+'/online').val() === true && root.child('galaxySpark/rooms/'+$code).child('hostSeen').val() > now - 12000 && newData.exists() && newData.child('id').val() !== data.child('id').val() && (!data.exists() || now - data.child('createdAt').val() >= 100) && ((newData.child('action').val() === 'join' && root.child('galaxySpark/rooms/'+$code).child('status').val() === 'lobby' && root.child('galaxySpark/rooms/'+$code).child('teamCount').val() < 21) || (newData.child('action').val() === 'pick' && root.child('galaxySpark/rooms/'+$code).child('status').val() === 'playing' && root.child('galaxySpark/rooms/'+$code).child('active').val() === auth.uid && root.child('galaxySpark/rooms/'+$code).child('turnDeadline').val() > now && newData.child('turnSerial').val() === root.child('galaxySpark/rooms/'+$code).child('turnSerial').val() && newData.child('boardVersion').val() === root.child('galaxySpark/rooms/'+$code).child('boardVersion').val() && root.child('galaxySpark/rooms/'+$code).child('board/'+newData.child('index').val()+'/found').val() !== true && newData.child('index').val() !== root.child('galaxySpark/rooms/'+$code).child('selected/0').val() && newData.child('index').val() !== root.child('galaxySpark/rooms/'+$code).child('selected/1').val()))",
+            ".validate": "newData.hasChildren(['id','action','createdAt']) && ((newData.child('action').val() === 'join' && newData.hasChildren(['name']) && !newData.hasChild('index') && !newData.hasChild('turnSerial') && !newData.hasChild('boardVersion')) || (newData.child('action').val() === 'pick' && newData.hasChildren(['index','turnSerial','boardVersion']) && !newData.hasChild('name')))",
+            "id": {
+              ".validate": "newData.isString() && newData.val().matches(/^[a-f0-9]{32}$/)"
+            },
+            "action": {
+              ".validate": "newData.val() === 'join' || newData.val() === 'pick'"
+            },
+            "createdAt": {
+              ".validate": "newData.isNumber() && newData.val() === now"
+            },
+            "name": {
+              ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 24"
+            },
+            "index": {
+              ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 24 && newData.val() % 1 === 0"
+            },
+            "turnSerial": {
+              ".validate": "newData.isNumber() && newData.val() >= 0"
+            },
+            "boardVersion": {
+              ".validate": "newData.isNumber() && newData.val() > 0"
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        }
+      },
+      "replies": {
+        "$code": {
+          "$uid": {
+            ".read": "auth != null && (auth.uid === $uid || (auth != null && root.child('galaxySpark/credentials/'+$code).child('owner').val() === auth.uid)) && root.child('galaxySpark/credentials/'+$code).child('createdAt').val() > now - 86400000",
+            ".write": "auth != null && root.child('galaxySpark/credentials/'+$code).child('owner').val() === auth.uid && root.child('galaxySpark/credentials/'+$code).child('createdAt').val() > now - 86400000 && newData.hasChildren(['id','ok','at']) && newData.child('id').val() === root.child('galaxySpark/requests/'+$code+'/'+$uid+'/id').val()",
+            "id": {
+              ".validate": "newData.isString()"
+            },
+            "ok": {
+              ".validate": "newData.isBoolean()"
+            },
+            "at": {
+              ".validate": "newData.isNumber() && newData.val() === now"
+            },
+            "message": {
+              ".validate": "newData.isString() && newData.val().length <= 200"
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        }
+      }
+    }
+  }
+}

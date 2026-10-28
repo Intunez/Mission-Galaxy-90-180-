@@ -1,4 +1,4 @@
-// Alleen de lokale modus op één toestel. Online spel gebruikt altijd de server.
+// Gedeelde spelregels voor de lokale modus en het vertrouwde online spelleiderstoestel.
 
 const crypto = {randomInt(max,min){if(min!==undefined){const low=max;max=min;return low+this.randomInt(max-low)}const a=new Uint32Array(1);globalThis.crypto.getRandomValues(a);return a[0]%max;},randomBytes(n){const a=new Uint8Array(n);globalThis.crypto.getRandomValues(a);return {toString:()=>Array.from(a,x=>x.toString(16).padStart(2,'0')).join('')}}};
 const PREVIEW=15000,TURN=15000,REVIEW=4400,LEASE=12000;

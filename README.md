@@ -1,56 +1,57 @@
-# Mission Galaxy 90°/180°
-
-Educatieve memory met 24 kaarten, complementaire en supplementaire hoeken, afzonderlijke geanimeerde ruimte-elementen en de aangeleverde muziekvideo.
+# Mission Galaxy 90°/180° — gratis Spark-versie
 
 Website: https://intunez.github.io/Mission-Galaxy-90-180-/
 
-## Beschikbaar
+## Geen betaalkaart of betaalde server
 
-- Vrij oefenen en tijdchallenge: 15 seconden voorvertoning, beide gekozen kaarten 4,4 seconden zichtbaar (inclusief 0,35 s draaien), +5 bij een juist paar, lokale persoonlijke records. Verplichte wachttijd en animaties tellen niet mee in de tijdchallenge.
-- Teamwedstrijd op één toestel: 1–21 teams, willekeurige volgorde, precies vijf beurten per team, 15 s selectietijd, +5/−1 met ondergrens nul, nieuwe borden met voorvertoning wanneer nodig, race, leerkrachtenbeheer, pauze, finale, gelijke rang en opnieuw spelen.
-- MP4 van 118,83 s met geluid: als enige media-element doorlopend herhaald, naast de memorykaarten, te vergroten, volume en dempen onthouden. De originele MP3 is bewaard maar wordt niet tegelijk afgespeeld.
-- Online client en servercode zijn aanwezig. **Online teams blijven uitgeschakeld zolang het aparte Firebase-project niet is ingesteld en de server en regels niet zijn gedeployd.** `firebase-config.js` is daarom nu `null`.
+De online wedstrijd gebruikt Firebase Authentication (anoniem) en Realtime Database op het **Spark-plan** van het eigen project `mission-galaxy-3d247`. Cloud Functions, Cloud Run, Firebase Storage en andere betaalde diensten worden niet aangeroepen. `firebase.json` bevat uitsluitend een databaseconfiguratie. Hosting, afbeeldingen en de aangeleverde muziekvideo blijven op GitHub Pages.
 
-## De Machtentempel blijft gescheiden
+Spark heeft gratis gebruikslimieten: maximaal 100 gelijktijdige databaseverbindingen, 1 GB opgeslagen gegevens en 10 GB datadownload per maand. Eén wedstrijd met 21 teams en een leerkracht gebruikt circa 22 databaseverbindingen. Meerdere tabbladen tellen apart. Bij het bereiken van een limiet kan Firebase de dienst beperken; het spel schakelt niet zelf over naar Blaze. Houd het project op Spark en koppel geen factureringsaccount.
 
-Deze repository is uitsluitend `Intunez/Mission-Galaxy-90-180-`. Er worden geen bestanden, instellingen of gegevens van De Machtentempel aangepast. De webclient bevat geen configuratie of verbinding naar de oude database. De server en alle deployhooks weigeren ieder project waarvan de ID niet met `mission-galaxy-` begint. De regels horen uitsluitend bij het nieuwe project; ze mogen nooit op een bestaand ander project worden gepubliceerd.
+Officiële grenzen: https://firebase.google.com/pricing
 
-## Online architectuur
+## Spel
 
-- Firebase Authentication: anonieme, op het toestel bewaarde identiteit.
-- Callable `galaxyAction` in `europe-west1`: de server bepaalt score, beurtvolgorde, deadlines, juiste paren, nieuwe borden en wie mag beheren.
-- Realtime Database `galaxy/privateRooms`: volledige serverstaat, niet leesbaar of schrijfbaar voor clients. `galaxy/rooms`: beperkte projectie, alleen leesbaar voor de leerkracht en deelnemers van die kamer. Alle rechtstreekse clientwrites zijn verboden, ook voor de host.
-- Kaart-ID's zijn willekeurig. Verborgen kaarten bevatten geen tekst of paar-ID. Leerkrachtcodes worden alleen als SHA-256-hash in de private staat bewaard. De ruwe code gaat uitsluitend naar de maker en diens lokale opslag.
-- Herstel op een ander toestel via spelcode plus geheime leerkrachtcode; de server draagt beheer over en pauzeert de missie. Teams behouden hun punten via de bewaarde Firebase-identiteit.
-- Een hostlease van 12 s blokkeert selectie bij verbroken leerkrachtverbinding. Een terugkerende heartbeat hervat nooit stilzwijgend; de leerkracht moet hervatten. Clients synchroniseren via de serverklok.
-- Elke actie heeft een verzoek-ID en elke selectie een bord-/beurtversie. Herhaalde of vertraagde verzoeken kunnen geen extra beurt of punten opleveren. Kamers verlopen na 24 uur.
-- Teamnamen worden als tekst weergegeven, nooit als HTML.
+- Vrij oefenen en tijdchallenge met 24 kaarten, 12 paren, 6×4 indeling, 15 s voorvertoning, minimaal 4 s volledig zicht op de twee gekozen kaarten en lokale persoonlijke records.
+- Lokale teamwedstrijd op één toestel of online teams op afzonderlijke toestellen: maximaal 21 teams, willekeurige volgorde, vijf beurten per team, 15 s per selectieronde, +5/−1 met minimum nul, zo nodig nieuwe borden met een nieuwe voorvertoning.
+- Afzonderlijke astronauten, race, zichtbare lancering en val door het luik, beheer, pauze/hervatten, podium, vuurwerk en gelijke rang bij gelijke score.
+- Eén MP4 met geluid, continu herhaald naast de kaarten, te vergroten, met bewaard volume en dempen. De oorspronkelijke MP3 blijft bewaard maar wordt niet gelijktijdig afgespeeld.
 
-## Aansluiten zonder ChatGPT-plug-in
+## Vertrouwd spelleiderstoestel
 
-De Firebase-plug-in is niet noodzakelijk. De officiële Firebase CLI kan worden gebruikt. Er is wel een Google-account met projectrechten nodig. Cloud Functions vereist een Blaze-project met gekoppelde facturering; dit wordt niet automatisch of zonder toestemming geactiveerd.
+De leerkracht is de centrale spelleider. Dat toestel moet tijdens de online wedstrijd open, zichtbaar en verbonden blijven. Het berekent scores en beurtvolgorde volgens dezelfde geteste engine als de lokale modus. Alleen de geauthenticeerde eigenaar mag de private wedstrijdstaat en het publieke bord bijwerken.
 
-1. Meld aan met `firebase login`.
-2. Maak **een nieuw** Firebase-project met ID `mission-galaxy-<uniek-suffix>`. Gebruik nooit het project van De Machtentempel. Kies voor Realtime Database een Europese locatie en schakel anonieme authenticatie in. Registreer een webapp en voeg `intunez.github.io` toe aan de toegestane domeinen.
-3. Vul uitsluitend de publieke webappconfiguratie in `firebase-config.js` in als `export default { apiKey, authDomain, databaseURL, projectId, appId };`. Geen service-account-sleutels of wachtwoorden in de repository.
-4. Installeer Node 22 en de dependencies: `npm --prefix functions ci`.
-5. Test: `npm --prefix functions test` en de emulatortests hieronder.
-6. Deploy expliciet naar het nieuwe project: `firebase deploy --project mission-galaxy-<uniek-suffix> --only functions:mission-galaxy,database`. De deployhooks blokkeren andere project-ID's, ook bij een afzonderlijke database-deploy.
-7. Publiceer daarna de webconfiguratie in deze repository. Verifieer aanmaken, twee afzonderlijke teams op twee toestellen, serverdeadlines, verbindingsverlies en herstel. Controleer apart dat pogingen om scores direct te schrijven worden geweigerd.
+Leerlingen mogen uitsluitend een gevalideerd deelnameverzoek indienen en, tijdens hun eigen actieve beurt, een kaartkeuze opsturen. De Firebase-beveiligingsregels controleren identiteit, actuele beurt, bordversie, deadline, kaartindex, gevonden kaarten, aanwezigheid van de leerkracht en toegestane velden. Scores, rangorde, teams en status zijn voor leerlingen niet schrijfbaar.
 
-De setup is pas online klaar wanneer deze publicatie en de controles werkelijk zijn uitgevoerd. Tot dan werkt de lokale teamwedstrijd zonder een Firebase-account.
+Bij leerkrachtverlies blokkeren de regels verdere keuzes op basis van aanwezigheid en een lease van 12 s. Na terugkeer pauzeert het spelleiderstoestel; de leerkracht moet bewust hervatten. Teams behouden hun Firebase-identiteit op hetzelfde toestel en krijgen hun punten terug na een korte onderbreking.
+
+De geheime herstelcode bevat 24 willekeurige bytes en wordt standaard verborgen gehouden in het leerkrachtenscherm. Alleen de maker ontvangt die code; de database bewaart de code in afgeschermde gegevens die leerlingen niet kunnen lezen. Herstel op een ander toestel werkt via de spelcode plus die geheime code. Beveiligingsregels controleren de code voordat eigendom wordt overgedragen. Het bestaande bord en de scores blijven bewaard en de wedstrijd wordt gepauzeerd. Bewaar de code privé, ook bij projectie van het leerkrachtenscherm.
+
+Dit model vertrouwt de leerkracht. Het is geen toernooisysteem dat ook tegen een kwaadwillende leerkracht bescherming biedt.
+
+## Projectscheiding
+
+Alleen `Intunez/Mission-Galaxy-90-180-` wordt gewijzigd. De Machtentempel en diens database blijven onaangeroerd. De transportcode accepteert uitsluitend `mission-galaxy-3d247` en de bijbehorende Europese database-URL. De gegevens staan onder `galaxySpark/`.
+
+## Eenmalig aansluiten in de eigen Firebase-console
+
+1. Het eigen project `mission-galaxy-3d247` blijft op Spark.
+2. Webapp, Realtime Database in `europe-west1`, anonieme aanmelding en het domein `intunez.github.io` zijn ingesteld.
+3. Open **Realtime Database → Rules** van uitsluitend dit project. Vervang de regels door de volledige inhoud van `firebase-database.rules.json` en klik **Publish**. Deze regels mogen nooit naar een ander project worden gekopieerd.
+4. Open het spel op het leerkrachtentoestel en kies **Teamwedstrijd starten → Online ruimtemissie maken**.
+5. Laat teams op andere toestellen **Deelnemen met code** kiezen. Controleer het aantal deelnemers en start de missie.
+6. Bewaar de geheime leerkrachtcode privé. Laat het leerkrachtentoestel open tijdens het spelen.
+
+Zolang stap 3 niet is uitgevoerd, blijft de database gesloten en wordt online deelname geweigerd. Een webconfiguratie op zichzelf activeert de database niet. Wachtwoorden, Google-aanmeldcodes of service-account-sleutels zijn niet nodig in de repository of in een gesprek.
 
 ## Testen
 
 ```
-npm --prefix functions test
-node scripts/sync-local-engine.cjs
-firebase emulators:exec --project demo-mission-galaxy-tests --only auth,database "node tests/database-rules.cjs"
-firebase emulators:exec --project demo-mission-galaxy-tests --only auth,database,functions "node tests/firebase-emulator.cjs"
+npm test
+npm run sync-engine
+firebase emulators:exec --project demo-mission-galaxy-tests --only auth,database "node tests/spark-emulator.cjs"
 ```
 
-De engine-tests behandelen 1.000 borden, 21 teams, 105 beurten over meerdere borden, wachttijden, timeout, scores, onbevoegde acties, pauze, verwijdering, geheime code en ontbrekende lege RTDB-arrays. De regeltest controleert echte Auth/Realtime Database-emulators. De volledige callable-integratietest vereist een omgeving die de lokale emulatorsockets ondersteunt; deze is beschikbaar maar moet daar worden uitgevoerd. Dit is geen bewijs dat productie-Firebase al is gedeployd.
+De tests controleren 1.000 borden, alle 105 beurten met 21 teams, timing, voorvertoningen, scores, pauze, herstel, verborgen antwoorden en ontbrekende lege database-arrays. De integratietest gebruikt echte Firebase Authentication- en Realtime Database-emulators, controleert de Spark-transportcode en probeert leerlingrechten te misbruiken. Er zijn geen Cloud Functions nodig voor ontwikkeling, tests of productie.
 
-## Bestanden
-
-`index.html`, `team-game.js`, `team-game.css`, `local-engine.js`, `firebase-config.js` en `assets/mission-song.mp4` worden rechtstreeks vanaf GitHub Pages geladen. `functions/`, `tests/` en `firebase.json` zijn backend- en ontwikkelbestanden. Geen geheimen of runtimegegevens committen. De lokale engine wordt uit de server-engine gegenereerd en wordt uitsluitend gebruikt voor de expliciet lokale modus.
+`engine/engine.cjs` bevat de gedeelde spelregels. `scripts/sync-local-engine.cjs` maakt de browsermodule. `spark-transport.js` verzorgt de online synchronisatie. `firebase-database.rules.json` handhaaft de toegangsgrenzen.
