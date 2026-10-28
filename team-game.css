@@ -3,3 +3,5 @@
 @media(prefers-reduced-motion:reduce){.cheering .team-runner{animation:none}.team-runner{transition:none}}
 
 #boardLayout .tile{overflow-wrap:normal;word-break:normal;hyphens:auto;font-size:clamp(10px,.94vw,13px)}.team-mode #pilot .suit-wrap{transform-origin:bottom}.launching #pilot .suit-wrap,.falling #pilot .suit-wrap{animation:stride .17s infinite alternate}
+
+.team-home-nav{display:flex;justify-content:flex-start;margin:14px 0}.team-home-nav button{font-size:16px;padding:12px 20px;font-weight:700}.team-home-nav.hidden{display:none}#home>button[hidden]{display:none}

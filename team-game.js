@@ -14,6 +14,28 @@ function safelyRead(key){try{return JSON.parse(localStorage.getItem(key)||'null'
 function persist(){if(session)localStorage.setItem(storageKey,JSON.stringify(session));if(session?.local&&localState)localStorage.setItem('galaxy-local-state-v2',JSON.stringify(localState))}
 function route(id){window.show(id);if(showManager){$('management').classList.remove('hidden');$('management').classList.add('management-window')}}
 function stop(){if(detach)detach();detach=null;clearInterval(heartbeat);clearInterval(clockInterval);session=null;state=null;connected=false;showManager=false;lastBoardKey='';lastEvent='';lastScene='';actors.clear();document.body.classList.remove('team-mode','paused-world','offline-world');$('management').classList.remove('management-window');$('pilot').innerHTML=savedSoloPilot;$('pilot').style.removeProperty('left');$('race').replaceChildren();$('race').style.removeProperty('--rows');$('race').style.removeProperty('--mobile-rows');$('connection').textContent='SOLO • LOKAAL RECORD';lastPhase='';revealSecret=false;}
+// Explicit navigation out of a remembered team session.
+const parkedKey='galaxy-team-parked-v2';
+const homeNav=document.createElement('nav');homeNav.className='team-home-nav hidden';homeNav.setAttribute('aria-label','Spelnavigatie');
+const homeButton=document.createElement('button');homeButton.type='button';homeButton.textContent='⌂ Terug naar home';homeButton.className='secondary';homeNav.append(homeButton);document.querySelector('header').after(homeNav);
+const resumeButton=document.createElement('button');resumeButton.type='button';resumeButton.textContent='Terug naar mijn teammissie';resumeButton.className='secondary';resumeButton.hidden=!safelyRead(parkedKey);$('home').append(resumeButton);
+const originalShow=window.show;
+window.show=id=>{originalShow(id);homeNav.classList.toggle('hidden',id==='home'||!session&&!['teacherSetup','join','teacherRecover'].includes(id));resumeButton.hidden=!safelyRead(parkedKey)};
+let leavingHome=false;
+homeButton.onclick=async()=>{
+ if(leavingHome)return;
+ if(session&&state?.status!=='final'&&!confirm(isHost()?'Terug naar home? Je teammissie blijft bewaard. Een lopende wedstrijd wordt gepauzeerd tot je terugkomt.':'Terug naar home? Je team blijft in de wedstrijd. Je kunt later terugkeren.'))return;
+ leavingHome=true;homeButton.disabled=true;
+ try{
+  if(session){
+   if(isHost()&&state&&!['lobby','paused','final'].includes(state.status))await perform('pause');
+   if(isHost()&&!session.local)await transport.api.set(transport.ref('presence/'+session.code),{online:false,seen:transport.api.serverTimestamp()});
+   persist();localStorage.setItem(parkedKey,JSON.stringify(session));localStorage.removeItem(storageKey);
+  }
+  stop();$('management').classList.add('hidden');window.resetMission?.();window.show('home');
+ }catch(e){notify('Terugkeren is nog niet gelukt: '+e.message)}finally{leavingHome=false;homeButton.disabled=false}
+};
+resumeButton.onclick=async()=>{const saved=safelyRead(parkedKey);if(!saved)return;localStorage.setItem(storageKey,JSON.stringify(saved));await restore()};
 const startSolo=window.startSolo;window.startSolo=m=>{stop();localStorage.removeItem(storageKey);startSolo(m)};
 $('videoExpand').onclick=()=>{const expanded=$('videoDock').classList.toggle('expanded');$('videoExpand').textContent=expanded?'Video verkleinen':'Video vergroten';$('videoExpand').setAttribute('aria-expanded',String(expanded))};
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('videoDock').classList.remove('expanded');$('videoExpand').textContent='Video vergroten';$('videoExpand').setAttribute('aria-expanded','false')}});
