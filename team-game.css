@@ -7,3 +7,54 @@
 .team-home-nav{display:flex;justify-content:flex-start;margin:14px 0}.team-home-nav button{font-size:16px;padding:12px 20px;font-weight:700}.team-home-nav.hidden{display:none}#home>button[hidden]{display:none}
 
 .visible-game-code{text-align:center;background:#061b30;border:2px solid #ffcf7d;border-radius:12px;padding:22px 12px;margin:18px 0 24px;box-shadow:0 0 35px #ffcf7d22}.visible-game-code span{display:block;color:#dceeff;font-size:clamp(14px,2.5vw,20px);letter-spacing:.03em}.visible-game-code strong{display:block;color:#ffdc91;font-size:clamp(46px,11vw,100px);line-height:1.2;letter-spacing:.12em;font-variant-numeric:tabular-nums;margin-top:8px}.visible-game-code.hidden{display:none}
+/* Every team remains in the visible crew dock, including the active team. */
+body.team-mode main{padding-bottom:calc(var(--roster-height,110px) + 95px)}
+.team-mode #race{position:fixed;inset:auto 12px 8px;z-index:45;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));grid-template-rows:repeat(var(--roster-rows,1),76px);grid-auto-flow:row;gap:0 8px;padding:26px 12px 8px;background:linear-gradient(#06172af5,#030a16fc);border:1px solid #72ceef88;border-radius:14px;box-shadow:0 -8px 40px #000b;backdrop-filter:blur(12px)}
+.team-mode #race:before{content:'BEMANNING · HET OPLICHTENDE TEAM IS AAN DE BEURT';position:absolute;top:7px;left:12px;font-size:10px;letter-spacing:1.2px;color:#b6d7e5}
+.team-mode #race .race-lane{height:70px;display:flex;align-items:center;justify-content:center;border:1px solid #69b9d32b;border-radius:8px;background:#10243877;min-width:0}
+.team-mode #race .race-lane:after,.team-mode #race .race-lane:before{display:none}
+.team-mode #race .team-runner{position:relative;left:auto!important;top:auto;display:flex;align-items:center;flex-direction:column;gap:0;width:100%;max-width:100%}
+.team-mode #race .suit-wrap{width:33px;height:46px;border:0;transition:filter .3s,transform .3s}
+.team-mode #race .team-caption{font-size:10px;max-width:95%;text-align:center;line-height:16px}
+.team-mode #race .team-number{font-size:8px;right:0;top:23px}
+.team-mode #race .team-leader:before{left:calc(50% - 7px);top:-5px}
+.team-mode #race .is-active{border:2px solid #ffdc87;background:radial-gradient(ellipse at 50% 70%,#b4752a88,#1b2c40);box-shadow:0 0 20px #ffd36b66,inset 0 0 20px #ffd36b22}
+.team-mode #race .is-active .suit-wrap{transform:scale(1.16);filter:drop-shadow(0 0 7px #ffe3a1)}
+.team-mode #race .is-active .team-caption{color:#ffe6a6;font-weight:800}
+.team-mode #race .is-launching{animation:crewVictory .5s ease-in-out 6 alternate}
+.team-mode #race .is-falling .suit-wrap{animation:crewAlarm .16s 12 alternate}
+.team-mode .music-controls{bottom:calc(var(--roster-height,110px) + 22px)}
+/* A cinematic event stage stays above the visible crew dock. */
+.team-mode #missionStage.launching,.team-mode #missionStage.falling{position:fixed;left:50%;top:max(15px,calc((100dvh - var(--roster-height,110px) - 350px)/2));width:min(850px,94vw);height:min(340px,calc(100dvh - var(--roster-height,110px) - 35px));transform:translateX(-50%);z-index:65;border:2px solid #7de7ff;border-radius:16px;background:radial-gradient(ellipse at 70% 80%,#174b69,#050e20 65%);box-shadow:0 0 0 150vmax #010714bb,0 0 70px #5bdcff55;overflow:hidden;pointer-events:none}
+.team-mode #missionStage.falling{border-color:#ff7158;background:radial-gradient(ellipse at 50% 100%,#932d1c,#090d22 70%);box-shadow:0 0 0 150vmax #010714bb,0 0 70px #ff5f3f66}
+.team-mode #missionStage:is(.launching,.falling) #pilot{bottom:60px;width:76px;height:125px}
+.team-mode #missionStage:is(.launching,.falling) #pilot .suit-wrap{width:76px;height:125px}
+.team-mode #missionStage:is(.launching,.falling) #rocket{width:85px;height:170px;bottom:58px;right:10%}
+.team-mode #missionStage:is(.launching,.falling) .runway{bottom:43px;height:28px}
+.team-mode #missionStage:is(.launching,.falling) .hatch{bottom:43px;width:95px;height:20px;left:46%;box-shadow:0 0 35px #ff7857}
+.cinematic-message{display:none;position:absolute;left:15px;right:15px;top:30px;text-align:center;color:#ffe1a0;font-size:clamp(15px,3vw,27px);font-weight:900;letter-spacing:1px;text-shadow:0 0 20px #ffcb6688;z-index:5}
+.team-mode :is(.launching,.falling) .cinematic-message{display:block;animation:missionHeadline .4s both}
+.team-mode .falling .cinematic-message{color:#ffd6c8}
+.team-mode .launching #rocket{animation:epicLiftoff 2s 1.1s cubic-bezier(.55,.02,.83,.54) forwards;animation-delay:calc(1.1s + var(--seek,0s));filter:drop-shadow(0 0 22px #69cfff)}
+.team-mode .launching #rocket .flame{transform-origin:center;filter:drop-shadow(0 12px 15px #ffaf42);animation:epicFlame .08s infinite alternate}
+.team-mode .falling #pilot{animation:walkHatch 1s linear forwards,epicFall 1.15s 1.35s cubic-bezier(.55,.02,.9,.48) forwards;animation-delay:var(--seek,0s),calc(1.35s + var(--seek,0s))}
+.team-mode .launching #pointBurst{font-size:52px;top:95px;left:65%;text-shadow:0 0 30px #ffcf64}
+.mission-fx{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.mission-fx i{position:absolute;left:72%;top:65%;width:6px;height:12px;opacity:0;background:#ffe7a1;border-radius:50%;box-shadow:0 0 12px #ffb34f}
+.launching .mission-fx i{animation:missionBurst 1.5s ease-out both;animation-delay:calc(1.25s + var(--i)*.009s + var(--seek,0s))}
+.falling .mission-fx i{left:50%;top:80%;background:#ff7752;box-shadow:0 0 12px #ff3d19;animation:missionBurst 1.1s ease-out both;animation-delay:calc(.9s + var(--i)*.009s + var(--seek,0s))}
+.team-mode .falling .hatch{animation:hatchAlarm .18s 13 alternate}
+.paused-world .mission-fx i,.paused-world .cinematic-message{animation-play-state:paused!important}
+@keyframes missionBurst{0%{opacity:0;transform:translate(0,0) scale(.2)}10%{opacity:1}80%{opacity:.9}100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(300deg) scale(.3)}}
+@keyframes epicLiftoff{0%,8%{transform:translateY(0) rotate(-2deg)}14%{transform:translateY(5px) rotate(2deg)}30%{transform:translateY(-20px)}100%{transform:translateY(-650px) scale(.5)}}
+@keyframes epicFlame{from{transform:scaleY(1.4) scaleX(.8)}to{transform:scaleY(2.8) scaleX(1.3)}}
+@keyframes epicFall{0%{transform:translateY(0) rotate(-8deg);opacity:1}30%{transform:translateY(20px) rotate(35deg);opacity:1}100%{transform:translateY(380px) rotate(250deg) scale(.25);opacity:0}}
+@keyframes crewVictory{to{box-shadow:0 0 30px #ffe095;background:#82632c}}
+@keyframes crewAlarm{to{transform:translateX(3px) rotate(5deg);filter:drop-shadow(0 0 8px #ff4a32)}}
+@keyframes hatchAlarm{to{box-shadow:0 0 45px #ff3c1d;background:#ff4a29}}
+@keyframes missionHeadline{from{opacity:0;transform:scale(.75)}to{opacity:1;transform:scale(1)}}
+@media(max-width:600px){.team-mode #race{inset:auto 3px 3px;gap:0 3px;padding:25px 4px 8px}.team-mode #race .team-caption{font-size:8px}.team-mode #race:before{font-size:8px;letter-spacing:0;left:7px}.team-mode #race .suit-wrap{width:29px;height:44px}.team-mode #race .is-active .suit-wrap{transform:scale(1.08)}.team-mode .music-controls{right:5px}}
+@media(prefers-reduced-motion:reduce){.mission-fx i,.team-mode #race .race-lane,.team-mode #race .suit-wrap,.team-mode .falling .hatch,.cinematic-message{animation:none!important}.mission-fx{display:none}}
+
+#ownAstronaut{text-align:center;border:2px solid #7de7ff77;background:radial-gradient(ellipse,#17496777,#03101e);padding:14px 8px;border-radius:12px}#ownAstronaut.hidden{display:none}.own-label{font-size:11px;color:#bfefff;letter-spacing:2px;margin:0}#ownAstronaut>img{display:block;width:100%;height:185px;object-fit:contain;margin:8px auto}#ownAstronaut h3{font-size:17px;margin:6px 0;color:#eef9ff}.own-score{display:block;color:#ffda8a;font-size:21px}.own-turn{font-size:12px;color:#c7e0f0;margin-bottom:0}#ownAstronaut.my-turn{border-color:#ffda8a;box-shadow:0 0 25px #ffda8a44}.my-turn .own-turn{color:#ffdf90;font-weight:900}.student-mode #videoDock,.student-mode .music-controls{display:none!important}#videoPlay{background:linear-gradient(135deg,#ffe4a3,#db9b42);color:#14263c;font-weight:800;padding:12px}
+@media(max-width:600px){#ownAstronaut{display:grid;grid-template-columns:80px 1fr;gap:3px 10px;width:100%;padding:6px;text-align:left}#ownAstronaut>img{grid-column:1;grid-row:1 / 5;width:80px;height:106px;margin:0}.own-label,#ownAstronaut h3,.own-score,.own-turn{grid-column:2;margin:0}#ownAstronaut.hidden{display:none}#videoDock #videoPlay{grid-column:2}#videoDock video{grid-row:1 / 5}}
