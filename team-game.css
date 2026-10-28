@@ -5,3 +5,5 @@
 #boardLayout .tile{overflow-wrap:normal;word-break:normal;hyphens:auto;font-size:clamp(10px,.94vw,13px)}.team-mode #pilot .suit-wrap{transform-origin:bottom}.launching #pilot .suit-wrap,.falling #pilot .suit-wrap{animation:stride .17s infinite alternate}
 
 .team-home-nav{display:flex;justify-content:flex-start;margin:14px 0}.team-home-nav button{font-size:16px;padding:12px 20px;font-weight:700}.team-home-nav.hidden{display:none}#home>button[hidden]{display:none}
+
+.visible-game-code{text-align:center;background:#061b30;border:2px solid #ffcf7d;border-radius:12px;padding:22px 12px;margin:18px 0 24px;box-shadow:0 0 35px #ffcf7d22}.visible-game-code span{display:block;color:#dceeff;font-size:clamp(14px,2.5vw,20px);letter-spacing:.03em}.visible-game-code strong{display:block;color:#ffdc91;font-size:clamp(46px,11vw,100px);line-height:1.2;letter-spacing:.12em;font-variant-numeric:tabular-nums;margin-top:8px}.visible-game-code.hidden{display:none}
