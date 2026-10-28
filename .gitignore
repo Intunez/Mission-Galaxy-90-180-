@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.openai/
+*-debug.log
+firebase-debug.*
+.env*
+.service-account*

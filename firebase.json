@@ -1,0 +1,32 @@
+{
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "mission-galaxy",
+      "predeploy": [
+        "node functions/check-project.cjs",
+        "npm --prefix functions test"
+      ]
+    }
+  ],
+  "database": {
+    "rules": "firebase-database.rules.json",
+    "predeploy": [
+      "node functions/check-project.cjs"
+    ]
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "database": {
+      "port": 9000
+    },
+    "functions": {
+      "port": 5001
+    },
+    "ui": {
+      "enabled": true
+    }
+  }
+}

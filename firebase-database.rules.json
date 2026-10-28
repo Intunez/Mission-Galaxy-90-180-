@@ -1,10 +1,1 @@
-{
-  "rules": {
-    "rooms": {
-      "$room": {
-        ".read": "auth != null && $room.beginsWith('mission-galaxy-')",
-        ".write": "auth != null && $room.beginsWith('mission-galaxy-')"
-      }
-    }
-  }
-}
+{"rules":{".read":false,".write":false,"galaxy":{"rooms":{"$code":{".read":"auth != null && (data.child('hostUid').val() === auth.uid || data.child('teams').child(auth.uid).exists())",".write":false}},"privateRooms":{".read":false,".write":false},"privateLimits":{".read":false,".write":false}}}}
