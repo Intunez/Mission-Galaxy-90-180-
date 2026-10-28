@@ -1,9 +1,9 @@
 {
   "rules": {
-    "missionGalaxy": {
+    "rooms": {
       "$room": {
-        ".read": "auth != null",
-        ".write": "auth != null"
+        ".read": "auth != null && $room.beginsWith('mission-galaxy-')",
+        ".write": "auth != null && $room.beginsWith('mission-galaxy-')"
       }
     }
   }
