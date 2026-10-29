@@ -286,3 +286,22 @@ body:has(#boardView:not(.hidden)) .team-home-nav>button{padding:5px 12px;font-si
 #boardView .team-mode #clock,.team-mode #boardView #clock{font-size:20px;padding:4px 10px}
 body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 }
+
+.dance-figure{position:relative;display:block;width:100%;height:100%;transform-origin:50% 95%}
+.dance-figure>.dance-body{width:100%;height:100%;object-fit:contain;animation:none!important;clip-path:polygon(28% 0,75% 0,75% 27%,64% 32%,66% 62%,38% 65%,35% 31%,25% 27%)}
+.dance-figure>.dance-limb{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;animation-duration:1.2s;animation-timing-function:ease-in-out;animation-iteration-count:infinite;animation-direction:alternate}
+.dance-limb.left-arm{clip-path:polygon(5% 25%,38% 25%,40% 38%,32% 70%,3% 72%);transform-origin:34% 33%;animation-name:danceLeftArm}
+.dance-limb.right-arm{clip-path:polygon(63% 25%,98% 25%,99% 72%,65% 70%,58% 38%);transform-origin:65% 33%;animation-name:danceRightArm}
+.dance-limb.left-leg{clip-path:polygon(24% 60%,52% 60%,53% 100%,15% 100%);transform-origin:43% 64%;animation-name:danceLeftLeg}
+.dance-limb.right-leg{clip-path:polygon(52% 60%,76% 60%,89% 100%,52% 100%);transform-origin:59% 64%;animation-name:danceRightLeg}
+#pilot:not(:empty) .dance-figure,.race-lane:not(.is-active) .dance-figure{animation:danceBounce .6s ease-in-out infinite alternate}
+#missionStage:is(.launching,.falling) .dance-figure>.dance-body{clip-path:none}
+#missionStage:is(.launching,.falling) .dance-limb{display:none}
+#missionStage:is(.launching,.falling) .dance-figure,.paused-world .dance-figure,.paused-world .dance-limb{animation:none!important}
+#ownAstronaut>.dance-figure{height:150px;width:100px;margin:0 auto}
+@keyframes danceLeftArm{from{transform:rotate(12deg)}to{transform:rotate( -34deg)}}
+@keyframes danceRightArm{from{transform:rotate(32deg)}to{transform:rotate(-12deg)}}
+@keyframes danceLeftLeg{from{transform:rotate( -12deg) translateY(-2px)}to{transform:rotate(10deg)}}
+@keyframes danceRightLeg{from{transform:rotate(-8deg)}to{transform:rotate(14deg) translateY(-3px)}}
+@keyframes danceBounce{from{transform:translateY(0) rotate(-3deg)}to{transform:translateY(-5px) rotate(3deg)}}
+@media(prefers-reduced-motion:reduce){.dance-figure,.dance-limb{animation:none!important}.dance-figure>.dance-body{clip-path:none}.dance-limb{display:none}}
