@@ -191,3 +191,5 @@ body.team-mode main{padding-bottom:calc(var(--roster-height,110px) + 95px)}
 @keyframes rocketIgnitionShake{from{transform:translateX(-1px)}to{transform:translateX(1px)}}
 @media(max-height:600px){.cinematic-active #missionStage.launching #rocket{max-height:calc(100% - 90px);height:220px;width:140px;bottom:55px}}
 @media(prefers-reduced-motion:reduce){.launching .rocket-sprite,.launching .launch-ground-glow{animation:none!important}}
+#missionPoints{display:inline-block;font-size:16px;font-weight:850;line-height:1.25;letter-spacing:.06em;background:#06172eef;color:#ffe5a6;border:1px solid #ffda8a88;border-radius:6px;padding:7px 11px;white-space:nowrap;box-shadow:0 3px 14px #0005}
+@media(max-width:600px){#missionPoints{font-size:12px;padding:6px 8px;letter-spacing:.03em}}
