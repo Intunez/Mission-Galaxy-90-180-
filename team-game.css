@@ -305,3 +305,14 @@ body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 @keyframes danceRightLeg{from{transform:rotate(-8deg)}to{transform:rotate(14deg) translateY(-3px)}}
 @keyframes danceBounce{from{transform:translateY(0) rotate(-3deg)}to{transform:translateY(-5px) rotate(3deg)}}
 @media(prefers-reduced-motion:reduce){.dance-figure,.dance-limb{animation:none!important}.dance-figure>.dance-body{clip-path:none}.dance-limb{display:none}}
+
+/* Readable lyric video beside the board, without a tiny letterboxed player. */
+@media(min-width:900px){
+#boardView #boardLayout{grid-template-columns:minmax(0,1fr) clamp(330px,28vw,480px)}
+#boardView #videoDock:not(.expanded){width:100%;max-width:none;box-sizing:border-box;overflow:auto;padding:8px;align-self:start;max-height:100%}
+#boardView #videoDock:not(.expanded) video{width:100%;height:auto;max-height:none;aspect-ratio:16/9;object-fit:contain}
+#boardView #videoDock:not(.expanded) .small{display:none}
+#boardView #videoDock:not(.expanded) button{padding:5px 8px;font-size:11px;margin-top:4px}
+#boardView #videoDock .video-label{padding:2px 0 5px}
+#boardView #videoDock details{font-size:11px;margin:4px 0}
+}
