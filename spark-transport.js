@@ -1,4 +1,4 @@
-import {createRoom,reduce,publicRoom} from './local-engine.js?v=scan-20';
+import {createRoom,reduce,publicRoom} from './local-engine.js?v=complete-23';
 const ROOT='galaxySpark';
 const randomHex=n=>{const a=new Uint8Array(n);crypto.getRandomValues(a);return Array.from(a,x=>x.toString(16).padStart(2,'0')).join('')};
 const clean=r=>{if(!r)return r;for(const k of ['board','found','selected','schedule'])r[k]=r[k]||[];r.teams=r.teams||{};r.requests=r.requests||{};return r};

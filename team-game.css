@@ -193,3 +193,8 @@ body.team-mode main{padding-bottom:calc(var(--roster-height,110px) + 95px)}
 @media(prefers-reduced-motion:reduce){.launching .rocket-sprite,.launching .launch-ground-glow{animation:none!important}}
 #missionPoints{display:inline-block;font-size:16px;font-weight:850;line-height:1.25;letter-spacing:.06em;background:#06172eef;color:#ffe5a6;border:1px solid #ffda8a88;border-radius:6px;padding:7px 11px;white-space:nowrap;box-shadow:0 3px 14px #0005}
 @media(max-width:600px){#missionPoints{font-size:12px;padding:6px 8px;letter-spacing:.03em}}
+
+/* Visible turn countdown and personal timeout feedback. */
+.team-mode #clock{font-size:clamp(24px,3vw,40px);font-weight:900;padding:12px 24px;border:2px solid #ffce71;background:#071626;color:#ffdb88;box-shadow:0 0 20px #ffc76640;position:sticky;top:8px;z-index:20}
+.team-mode #clock.urgent{color:#fff;background:#922d25;border-color:#ffb29e;box-shadow:0 0 24px #ff604c80}
+#timeoutNotice:not([hidden]){position:fixed;inset:35% 10% auto;z-index:10000;text-align:center;padding:40px 20px;border:3px solid #ffd288;border-radius:24px;background:#081629f5;color:#ffd288;font-size:clamp(36px,7vw,88px);font-weight:900;box-shadow:0 0 80px #000b;pointer-events:none}
