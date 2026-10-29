@@ -1,7 +1,7 @@
 // Gedeelde spelregels voor de lokale modus en het vertrouwde online spelleiderstoestel.
 
 const crypto = {randomInt(max,min){if(min!==undefined){const low=max;max=min;return low+this.randomInt(max-low)}const a=new Uint32Array(1);globalThis.crypto.getRandomValues(a);return a[0]%max;},randomBytes(n){const a=new Uint8Array(n);globalThis.crypto.getRandomValues(a);return {toString:()=>Array.from(a,x=>x.toString(16).padStart(2,'0')).join('')}}};
-const PREVIEW=15000,TURN=15000,REVIEW=4400,LEASE=12000,WIN=5800,FALL=5200;
+const PREVIEW=15000,TURN=15000,REVIEW=4400,WRONG_REVIEW=2000,LEASE=12000,WIN=5800,FALL=5200;
 class GameError extends Error { constructor(code,message){super(message);this.code=code;} }
 const fail=(code,message)=>{throw new GameError(code,message)};
 const clone=x=>structuredClone(x);
@@ -30,7 +30,7 @@ if(action==='tick'){}
 else if(action==='join'){if(teacher)fail('failed-precondition','Laat teams via een ander toestel of browserprofiel deelnemen.');if(r.teams[uid])return r;if(r.status!=='lobby')fail('failed-precondition','Deze missie is al gestart.');if(Object.keys(r.teams).length>=21)fail('resource-exhausted','Deze missie heeft al 21 teams.');const n=name(payload.name);if(Object.values(r.teams).some(t=>t.name.toLocaleLowerCase('nl')===n.toLocaleLowerCase('nl')))fail('already-exists','Deze teamnaam bestaat al.');const occupied=new Set(Object.values(r.teams).map(t=>t.suit));let suit=0;while(occupied.has(suit))suit++;r.teams[uid]={name:n,score:0,turns:0,suit,joinedAt:now};}
 else if(action==='recover'){if(!secretMatches(payload.secret,r.hostSecretHash))fail('permission-denied','De geheime leerkrachtcode klopt niet.');r.hostUid=uid;r.hostSeen=now;pause(r,now,'Leerkrachtenbeheer hersteld. Hervat wanneer iedereen klaar is.');}
 else if(action==='pick'){
-if(teacher||active(r)!==uid||r.status!=='playing')fail('permission-denied','Wacht op je beurt.');if(payload.turnSerial!==r.turnSerial||payload.boardVersion!==r.boardVersion)fail('failed-precondition','Deze beurt is voorbij.');const i=payload.index;if(!Number.isInteger(i)||i<0||i>=24)fail('invalid-argument','Ongeldige kaart.');if(r.selected.includes(i)||r.found.includes(r.board[i].pair)||r.selected.length>=2)fail('failed-precondition','Deze kaart kun je niet kiezen.');r.selected.push(i);if(r.selected.length===2){if(r.board[r.selected[0]].pair!==r.board[r.selected[1]].pair)settle(r,now);else{r.status='review';r.reviewUntil=now+REVIEW;}}}
+if(teacher||active(r)!==uid||r.status!=='playing')fail('permission-denied','Wacht op je beurt.');if(payload.turnSerial!==r.turnSerial||payload.boardVersion!==r.boardVersion)fail('failed-precondition','Deze beurt is voorbij.');const i=payload.index;if(!Number.isInteger(i)||i<0||i>=24)fail('invalid-argument','Ongeldige kaart.');if(r.selected.includes(i)||r.found.includes(r.board[i].pair)||r.selected.length>=2)fail('failed-precondition','Deze kaart kun je niet kiezen.');r.selected.push(i);if(r.selected.length===2){r.status='review';r.reviewUntil=now+(r.board[r.selected[0]].pair===r.board[r.selected[1]].pair?REVIEW:WRONG_REVIEW);}}
 else {
 if(!teacher)fail('permission-denied','Alleen de leerkracht kan dit doen.');r.hostSeen=now;
 if(action==='start'){if(r.status!=='lobby')fail('failed-precondition','De missie is al gestart.');const ids=shuffle(Object.keys(r.teams));if(!ids.length)fail('failed-precondition','Laat eerst teams deelnemen.');r.order=ids;r.schedule=Array.from({length:5},()=>ids).flat();r.cursor=0;r.turnSerial++;preview(r,now);}
@@ -44,4 +44,4 @@ else fail('invalid-argument','Onbekende actie.');}
 r.revision++;r.updatedAt=now;return r;}
 // Pair answers never leave the server before they are visible. Closed cards contain IDs only.
 function publicRoom(r,viewer){const out={};for(const key of ['schema','hostUid','hostSeen','createdAt','updatedAt','revision','status','teams','schedule','order','cursor','turnSerial','found','selected','boardVersion','event','eventSerial','previewUntil','turnDeadline','reviewUntil','animUntil','pauseReason','pausedPhase','remaining','finishedAt'])if(r[key]!==undefined)out[key]=r[key];out.active=active(r);out.board=r.board.map((c,i)=>({id:c.id,...(r.status==='preview'||(r.status==='paused'&&r.pausedPhase==='preview')||r.selected.includes(i)||r.found.includes(c.pair)?{text:c.text}:{}),found:r.found.includes(c.pair)}));return out;}
-export {createRoom,reduce,publicRoom,makeBoard,GameError,secretMatches,PREVIEW,TURN,REVIEW,LEASE,WIN,FALL};
+export {createRoom,reduce,publicRoom,makeBoard,GameError,secretMatches,PREVIEW,TURN,REVIEW,WRONG_REVIEW,LEASE,WIN,FALL};
