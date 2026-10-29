@@ -156,3 +156,5 @@ body.team-mode main{padding-bottom:calc(var(--roster-height,110px) + 95px)}
 @keyframes fallStardust{to{background-position:20px -120px,-30px -190px}}
 @media(max-width:600px){.cinematic-active #missionStage.falling{height:65vh}.falling .fall-vista{background-position:42% center}.fall-name{font-size:10px;padding:4px 9px;top:-22px}.fall-alien{min-width:13px}.fall-verdict small{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.falling .space-fall-scene *{animation:none!important}.fall-pilot{left:52%;top:55%;width:24%;transform:translate(-50%,-50%)}.falling .fall-dust,.falling .fall-rock{display:none}}
+
+.falling .fall-verdict{animation:none!important;opacity:1!important;transform:none!important}.falling .cinema-total{display:none!important}.falling .cinema-verdict{inset:58px 18px auto auto}.cinema-verdict .fall-verdict{color:#ffddd1;font-size:clamp(56px,8vw,90px)}.fall-verdict small{font-size:clamp(10px,1.6vw,15px);color:#ffe9d9}

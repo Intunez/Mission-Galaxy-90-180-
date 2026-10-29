@@ -1,7 +1,7 @@
 import firebaseConfig from './firebase-config.js';
-import * as localEngine from './local-engine.js?v=cinema-9';
+import * as localEngine from './local-engine.js?v=instant-fall-13';
 window.missionDurations={win:localEngine.WIN,fall:localEngine.FALL};
-import {SparkTransport} from './spark-transport.js?v=cinema-9';
+import {SparkTransport} from './spark-transport.js?v=instant-fall-13';
 const $=id=>document.getElementById(id);
 const sprite=$('pilot').querySelector('img')?.src||document.querySelector('.hero-pilot')?.src;
 const savedSoloPilot=$('pilot').innerHTML;
@@ -128,7 +128,7 @@ function renderGame(){if(lastPhase==='paused'&&state.status==='animating')lastEv
 const reveal=state.status==='preview'||state.status==='paused'&&state.pausedPhase==='preview';const boardKey=JSON.stringify([state.boardVersion,state.status,state.selected,state.found,state.board.map(c=>c.text||'')]);if(boardKey!==lastBoardKey){lastBoardKey=boardKey;$('board').replaceChildren();state.board.forEach((c,i)=>{const tile=document.createElement('button');const open=reveal||state.selected.includes(i);tile.className='tile '+(c.found?'found':open?'open':'back');tile.textContent=open?(c.text||'…'):'';tile.setAttribute('aria-label',c.found?'Gevonden paar':open?c.text||'Geopende kaart':'Gesloten kaart '+(i+1));tile.disabled=!canPick()||c.found||state.selected.includes(i);tile.onclick=()=>choose(i);$('board').append(tile)})}
 const message=state.status==='paused'?state.pauseReason:state.status==='preview'?'SCANFASE · Onthoud alle 24 kaarten':state.status==='review'?'TWEE KAARTEN · Bekijk en vergelijk':state.status==='animating'?(state.event?.kind==='launch'?'+5 PUNTEN · Raketlancering':state.event?.kind==='fall'?'GEEN PAAR · −1 PUNT':'TIJD VOORBIJ · Deze beurt is gebruikt'):(session.local?'Geef de bediening aan '+active?.name:canPick()?'JOUW BEURT · Kies twee kaarten':'Aan de beurt: '+active?.name);$('effect').textContent=message;
 renderRace();const e=state.event;if(state.status==='animating'&&e&&e.kind!=='timeout'){const eventKey=e.id+':'+e.at;if(lastEvent!==eventKey){lastEvent=eventKey;const elapsed=Math.max(0,(e.kind==='launch'?localEngine.WIN:localEngine.FALL)-(state.animUntil-(Date.now()+offset)));window.animateMission(e.kind==='launch',e.score,elapsed);}}else if(state.status!=='paused'){$('missionStage').classList.remove('launching','falling');$('missionStage').style.setProperty('--seek','0s');}
-$('missionPoints').textContent=String(active?.score||0).padStart(2,'0')+' PUNTEN';}
+$('missionPoints').textContent='TOTAAL: '+(active?.score||0)+' PUNTEN';}
 async function choose(index){if(actionBusy||!canPick())return;actionBusy=true;try{await perform('pick',{index,turnSerial:state.turnSerial,boardVersion:state.boardVersion});}catch(e){notify(e.message)}finally{actionBusy=false}}
 function renderRace(){
  const entries=Object.entries(state.teams),race=$('race'),max=Math.max(0,...entries.map(([,t])=>t.score));
