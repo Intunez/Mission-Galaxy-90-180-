@@ -69,8 +69,8 @@ for(let i=0;i<9;i++){const cloud=document.createElement('i');cloud.className='ci
 const homeNav=document.createElement('nav');homeNav.className='team-home-nav hidden';homeNav.setAttribute('aria-label','Spelnavigatie');
 const homeButton=document.createElement('button');homeButton.type='button';homeButton.textContent='⌂ Terug naar home';homeButton.className='secondary';homeNav.append(homeButton);const soundToggle=document.createElement('button');soundToggle.type='button';soundToggle.className='secondary sound-toggle';function soundLabel(){soundToggle.textContent=soundEnabled?'Spelgeluiden: aan':'Spelgeluiden: uit';soundToggle.setAttribute('aria-pressed',String(soundEnabled))}soundLabel();soundToggle.onclick=()=>{soundEnabled=!soundEnabled;localStorage.setItem('galaxy-effects',String(soundEnabled));if(!soundEnabled)silenceGameAudio();else unlockGameAudio();soundLabel()};homeNav.append(soundToggle);document.querySelector('header').after(homeNav);
 const originalShow=window.show;
-window.show=id=>{originalShow(id);setHomeMusic(id==='home');if(id==='boardView'&&!session)$('videoDock').append(soundToggle);else homeNav.append(soundToggle);homeNav.classList.toggle('hidden',id==='home'||!session&&!['teacherSetup','join','teacherRecover'].includes(id))};
-const soloMediaRoute=new MutationObserver(()=>{setHomeMusic(!$('home').classList.contains('hidden'));if(!session&&!$('boardView').classList.contains('hidden'))$('videoDock').append(soundToggle);else homeNav.append(soundToggle)});for(const id of ['home','boardView'])soloMediaRoute.observe($(id),{attributes:true,attributeFilter:['class']});
+window.show=id=>{originalShow(id);setHomeMusic(id==='home');if(id==='boardView'&&!session)$('videoDock').append(soundToggle);else homeNav.append(soundToggle);homeNav.classList.toggle('hidden',id==='home')};
+const soloMediaRoute=new MutationObserver(()=>{setHomeMusic(!$('home').classList.contains('hidden'));homeNav.classList.toggle('hidden',!$('home').classList.contains('hidden'));if(!session&&!$('boardView').classList.contains('hidden'))$('videoDock').append(soundToggle);else homeNav.append(soundToggle)});for(const id of ['home','boardView'])soloMediaRoute.observe($(id),{attributes:true,attributeFilter:['class']});
 let leavingHome=false;
 homeButton.onclick=async()=>{
  if(leavingHome)return;
@@ -82,7 +82,7 @@ homeButton.onclick=async()=>{
    if(isHost()&&!session.local)await transport.api.set(transport.ref('presence/'+session.code),{online:false,seen:transport.api.serverTimestamp()});
    sessionStorage.removeItem(storageKey);sessionStorage.removeItem('galaxy-local-state-v2');
   }
-  stop();$('management').classList.add('hidden');window.resetMission?.();window.show('home');
+  if(!session)window.leaveSolo?.();stop();$('management').classList.add('hidden');window.resetMission?.();window.show('home');
  }catch(e){notify('Terugkeren is nog niet gelukt: '+e.message)}finally{leavingHome=false;homeButton.disabled=false}
 };
 let soloName=localStorage.getItem('galaxy-solo-name')||'';let pendingSoloMode='practice';
