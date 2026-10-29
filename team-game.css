@@ -227,3 +227,20 @@ body.team-mode main{padding-bottom:calc(var(--roster-height,110px) + 95px)}
 #missionStage .stage-label{z-index:10}
 .cinematic-active #missionStage.launching{background-image:url('assets/space-bridge.webp');background-position:center 40%}
 @media(max-width:600px){#missionStage:not(.launching):not(.falling),.team-mode #missionStage:not(.launching):not(.falling){height:250px;background-position:35% center}}
+
+.ceremony-arrival{position:relative;height:clamp(280px,48vw,540px);margin:-10px -10px 24px;border:1px solid #ffdf87;border-radius:16px;overflow:hidden;background:#07122c url('assets/final-ceremony.webp') center/cover;isolation:isolate}
+.ceremony-rocket{position:absolute;height:79%;width:auto;left:15%;bottom:13%;filter:drop-shadow(0 0 22px #7be6ff);opacity:0}
+.arriving .ceremony-rocket{animation:ceremonyLanding 3.6s ease-out both}
+.ceremony-thrust{position:absolute;left:24%;bottom:8%;width:9%;height:15%;background:radial-gradient(ellipse,#fff,#75e8ff 35%,transparent 70%);filter:blur(5px);opacity:0}
+.arriving .ceremony-thrust{animation:ceremonyEngine 3.6s both}
+.ceremony-beams{position:absolute;inset:0;background:conic-gradient(from -20deg at 72% 85%,transparent 0deg,#ffda6830 8deg,transparent 14deg,#fff1a530 24deg,transparent 32deg);mix-blend-mode:screen;animation:ceremonyLights 3s ease-in-out infinite alternate}
+.ceremony-confetti{position:absolute;left:var(--x);top:-20px;width:7px;height:13px;background:var(--color);opacity:0;pointer-events:none}
+.arriving .ceremony-confetti{animation:ceremonyConfetti 4s calc(1.8s + var(--i)*.035s) linear infinite}
+#results .final-ranking,#results #resultTitle,#results #resultText{position:relative;z-index:2}
+#results:not(.hidden) #resultText{animation:scoreArrival .6s 2.8s both}
+@keyframes ceremonyLanding{0%{transform:translateY(-130%) scale(.7);opacity:1}75%{transform:translateY(0) scale(1);opacity:1}90%{opacity:1}100%{transform:translateY(0);opacity:0}}
+@keyframes ceremonyEngine{0%,80%{opacity:1;transform:scaleY(1.4)}100%{opacity:0;transform:scaleY(.2)}}
+@keyframes ceremonyLights{to{transform:rotate(8deg) scale(1.1);opacity:.6}}
+@keyframes ceremonyConfetti{0%{opacity:0;transform:translateY(0) rotate(0)}10%{opacity:1}100%{opacity:0;transform:translateY(600px) rotate(650deg)}}
+@keyframes scoreArrival{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.ceremony-arrival *{animation:none!important}.ceremony-rocket,.ceremony-thrust{display:none}#results:not(.hidden) #resultText{animation:none}}
