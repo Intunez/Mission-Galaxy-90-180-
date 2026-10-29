@@ -1,7 +1,7 @@
 import firebaseConfig from './firebase-config.js';
-import * as localEngine from './local-engine.js?v=polish-18';
+import * as localEngine from './local-engine.js?v=scan-20';
 window.missionDurations={win:localEngine.WIN,fall:localEngine.FALL};
-import {SparkTransport} from './spark-transport.js?v=polish-18';
+import {SparkTransport} from './spark-transport.js?v=scan-20';
 const $=id=>document.getElementById(id);
 const sprite=$('pilot').querySelector('img')?.src||document.querySelector('.hero-pilot')?.src;
 const savedSoloPilot=$('pilot').innerHTML;
@@ -45,7 +45,7 @@ let gameAudio=null,soundNodes=[];let soundEnabled=localStorage.getItem('galaxy-e
 function unlockGameAudio(){try{if(!gameAudio)gameAudio=new (window.AudioContext||window.webkitAudioContext)();if(gameAudio.state==='suspended')gameAudio.resume().catch(()=>{})}catch{}}
 document.addEventListener('pointerdown',unlockGameAudio,{once:true});document.addEventListener('keydown',unlockGameAudio,{once:true});
 function silenceGameAudio(){for(const node of soundNodes){try{node.stop()}catch{}}soundNodes=[];}
-function outcomeSound(win,seek=0){silenceGameAudio();if(!soundEnabled||!gameAudio||gameAudio.state!=='running'||seek>1000)return;const ctx=gameAudio,now=ctx.currentTime,volume=Math.min(.26,chosenMusicVolume()*.3);if(!volume)return;
+function outcomeSound(win,seek=0){silenceGameAudio();if(!soundEnabled||!gameAudio||gameAudio.state!=='running'||seek>1000)return;const ctx=gameAudio,now=ctx.currentTime,volume=Math.min(.5,chosenMusicVolume()*.65);if(!volume)return;
  function tone(at,hz,end,duration,wave='sine',power=1){if(at*1000<seek)return;const start=now+at-seek/1000,osc=ctx.createOscillator(),gain=ctx.createGain();osc.type=wave;osc.frequency.setValueAtTime(hz,start);osc.frequency.exponentialRampToValueAtTime(Math.max(20,end),start+duration);gain.gain.setValueAtTime(.001,start);gain.gain.exponentialRampToValueAtTime(Math.max(.002,volume*power),start+.025);gain.gain.exponentialRampToValueAtTime(.001,start+duration);osc.connect(gain);gain.connect(ctx.destination);osc.start(start);osc.stop(start+duration+.02);soundNodes.push(osc);}
  if(win){[392,494,587].forEach((h,i)=>tone(i*.16,h,h,.22,'triangle',.55));tone(1.4,70,350,2,'sawtooth',.22);tone(3.1,180,1800,.7,'sine',.35);[523,659,784,1047].forEach((h,i)=>tone(4+i*.09,h,h,.7,'triangle',.5));}
  else{tone(0,220,220,.18,'triangle',.55);tone(.32,185,185,.22,'triangle',.5);tone(1.8,650,55,1.15,'sawtooth',.25);tone(3,65,130,.6,'sine',.4);tone(4,440,880,.4,'sine',.5);tone(4.3,659,988,.45,'triangle',.4);}}

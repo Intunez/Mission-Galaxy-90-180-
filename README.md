@@ -12,7 +12,7 @@ Officiële grenzen: https://firebase.google.com/pricing
 
 ## Spel
 
-- Vrij oefenen en tijdchallenge met 24 kaarten, 12 paren, 6×4 indeling, 30 s voorvertoning, 4,4 s zicht bij een juist paar en 2 s bij een fout paar en lokale persoonlijke records.
+- Vrij oefenen en tijdchallenge met 24 kaarten, 12 paren, 6×4 indeling, 20 s voorvertoning, 4,4 s zicht bij een juist paar en 2 s bij een fout paar en lokale persoonlijke records.
 - Lokale teamwedstrijd op één toestel of online teams op afzonderlijke toestellen: maximaal 21 teams, willekeurige volgorde, vijf beurten per team, 15 s per selectieronde, +5/−1 met minimum nul, zo nodig nieuwe borden met een nieuwe voorvertoning.
 - Afzonderlijke astronauten, race, zichtbare lancering en val door het luik, beheer, pauze/hervatten, podium, vuurwerk en gelijke rang bij gelijke score.
 - Eén MP4 met geluid, continu herhaald naast de kaarten, te vergroten, met bewaard volume en dempen. De oorspronkelijke MP3 blijft bewaard maar wordt niet gelijktijdig afgespeeld.
