@@ -26,9 +26,9 @@ function syncHomeVolume(){homeAudio.volume=video.volume;homeAudio.muted=video.mu
 const homeMusicNote=document.createElement('p');homeMusicNote.className='small hidden';homeMusicNote.id='homeMusicNote';homeMusicNote.setAttribute('role','status');homeMusicButton.after(homeMusicNote);
 function homeMusicLabel(){homeMusicButton.textContent=homeAudio.paused?(homeMusicWanted?'♫ Start muziek':'🔇 Muziek aanzetten'):'🔊 Muziek uitzetten';homeMusicButton.setAttribute('aria-pressed',String(!homeAudio.paused));if(!homeAudio.paused||!homeMusicWanted)homeMusicNote.classList.add('hidden')}
 homeAudio.addEventListener('play',homeMusicLabel);homeAudio.addEventListener('pause',homeMusicLabel);homeMusicLabel();
-function setHomeMusic(on){if(!on||!homeMusicWanted){homeAudio.pause();homeMusicLabel();return}video.pause();homeAudio.play().then(homeMusicLabel).catch(()=>{homeMusicLabel();if(homeMusicWanted&&!$('home').classList.contains('hidden')){homeMusicNote.textContent='Klik eenmaal op het scherm om de muziek te horen.';homeMusicNote.classList.remove('hidden')}})}
+function setHomeMusic(on){const student=session&&!session.local&&!isHost();if(!homeMusicWanted||student||(!on&&!video.paused)){homeAudio.pause();homeMusicLabel();return}if(on)video.pause();if(!homeAudio.paused)return;homeAudio.play().then(homeMusicLabel).catch(homeMusicLabel)}
 homeMusicButton.onclick=()=>{homeMusicWanted=homeAudio.paused;localStorage.setItem('galaxy-home-music',JSON.stringify(homeMusicWanted));if(homeMusicWanted&&video.muted)video.muted=false;setHomeMusic(homeMusicWanted)};
-function startHomeOnInteraction(e){if(!$('home').classList.contains('hidden')&&homeMusicWanted&&!e.target.closest('#homeMusicButton,.music-controls'))setHomeMusic(true)}
+function startHomeOnInteraction(e){if(homeMusicWanted&&!e.target.closest('#homeMusicButton,.music-controls'))setHomeMusic(!$('home').classList.contains('hidden'))}
 document.addEventListener('pointerdown',startHomeOnInteraction);document.addEventListener('keydown',startHomeOnInteraction);
 video.addEventListener('play',()=>homeAudio.pause());
 const videoPlay=document.createElement('button');videoPlay.type='button';videoPlay.id='videoPlay';videoPlay.textContent='▶ Start video';$('videoExpand').before(videoPlay);
