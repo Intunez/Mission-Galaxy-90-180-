@@ -316,3 +316,24 @@ body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 #boardView #videoDock .video-label{padding:2px 0 5px}
 #boardView #videoDock details{font-size:11px;margin:4px 0}
 }
+
+/* Larger readable film and a clearly planted, energetic astronaut. */
+@media(min-width:900px){
+#boardView #boardLayout{grid-template-columns:minmax(0,1fr) clamp(420px,36vw,620px)}
+#boardView #videoDock:not(.expanded) video{width:100%;height:auto;max-height:none;aspect-ratio:16/9}
+#boardView #videoDock:not(.expanded){padding:5px}
+#boardView #videoDock:not(.expanded) .video-label{display:none}
+}
+#missionStage:not(.launching):not(.falling) #pilot{left:27%!important;bottom:21%!important;transform:none;animation:none!important;width:70px;height:110px}
+#missionStage:not(.launching):not(.falling) #pilot .dance-figure{animation:astronautGroove .7s ease-in-out infinite alternate!important;transform-origin:50% 100%}
+.dance-figure>.dance-limb{animation-duration:.7s;filter:drop-shadow(0 0 1px #92e5ff)}
+.dance-limb.left-arm{animation-name:bigLeftArm}
+.dance-limb.right-arm{animation-name:bigRightArm}
+.dance-limb.left-leg{animation-name:bigLeftLeg}
+.dance-limb.right-leg{animation-name:bigRightLeg}
+@keyframes bigLeftArm{from{transform:rotate(20deg)}to{transform:rotate(-65deg)}}
+@keyframes bigRightArm{from{transform:rotate(65deg)}to{transform:rotate(-20deg)}}
+@keyframes bigLeftLeg{from{transform:rotate(-23deg) translateY(-3px)}to{transform:rotate(17deg)}}
+@keyframes bigRightLeg{from{transform:rotate(-17deg)}to{transform:rotate(23deg) translateY(-3px)}}
+@keyframes astronautGroove{0%{transform:translateX(-5px) rotate(-5deg)}50%{transform:translateX(0) translateY(-4px) rotate(0)}100%{transform:translateX(5px) rotate(5deg)}}
+@media(prefers-reduced-motion:reduce){#missionStage:not(.launching):not(.falling) #pilot .dance-figure{animation:none!important}}
