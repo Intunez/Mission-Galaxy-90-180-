@@ -205,3 +205,6 @@ body.team-mode main{padding-bottom:calc(var(--roster-height,110px) + 95px)}
 .team-mode #race .team-caption{display:flex;flex-direction:column;align-items:center;line-height:15px;white-space:normal;overflow:hidden;max-width:100%;width:100%;font-size:11px}
 .team-mode #race .team-caption b{display:block;font-size:13px;color:#ffe49c;white-space:nowrap}
 .team-mode #race .suit-wrap{height:34px;min-height:34px;width:26px;flex-shrink:0}
+
+#missionStage.falling .cinematic-message{display:block!important;z-index:30;color:#ffe1bb;text-transform:none}
+#missionStage.launching .cinematic-message{text-transform:none}
