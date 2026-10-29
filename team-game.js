@@ -3,6 +3,7 @@ import * as localEngine from './local-engine.js?v=review-25';
 window.missionDurations={win:localEngine.WIN,fall:localEngine.FALL};
 import {SparkTransport} from './spark-transport.js?v=review-25';
 const $=id=>document.getElementById(id);
+$('connection').textContent='';
 const sprite=$('pilot').querySelector('img')?.src||document.querySelector('.hero-pilot')?.src;
 const savedSoloPilot=$('pilot').innerHTML;
 const buttons=$('teacherTools');
@@ -16,7 +17,7 @@ function notify(message){$('toast').textContent=message;$('toast').classList.rem
 function safelyRead(key){try{return JSON.parse(localStorage.getItem(key)||'null')}catch{return null}}
 function persist(){if(session)sessionStorage.setItem(storageKey,JSON.stringify(session));if(session?.local&&localState)sessionStorage.setItem('galaxy-local-state-v2',JSON.stringify(localState))}
 function route(id){window.show(id);if(showManager){$('management').classList.remove('hidden');$('management').classList.add('management-window')}}
-function stop(){if($('timeoutNotice'))$('timeoutNotice').hidden=true;silenceGameAudio();restoreMusicVolume();raceAnchor.after($('race'));stageAnchor.after($('missionStage'));$('race').classList.remove('hidden');if(detach)detach();detach=null;clearInterval(heartbeat);clearInterval(clockInterval);session=null;state=null;connected=false;showManager=false;lastBoardKey='';lastEvent='';lastScene='';actors.clear();document.body.classList.remove('team-mode','paused-world','offline-world','student-mode');$('ownAstronaut').classList.add('hidden');video.pause();$('management').classList.remove('management-window');$('pilot').innerHTML=savedSoloPilot;delete $('pilot').dataset.team;document.body.style.removeProperty('--roster-height');$('pilot').style.removeProperty('left');$('race').replaceChildren();$('race').style.removeProperty('--rows');$('race').style.removeProperty('--mobile-rows');$('connection').textContent='SOLO • LOKAAL RECORD';lastPhase='';revealSecret=false;}
+function stop(){if($('timeoutNotice'))$('timeoutNotice').hidden=true;silenceGameAudio();restoreMusicVolume();raceAnchor.after($('race'));stageAnchor.after($('missionStage'));$('race').classList.remove('hidden');if(detach)detach();detach=null;clearInterval(heartbeat);clearInterval(clockInterval);session=null;state=null;connected=false;showManager=false;lastBoardKey='';lastEvent='';lastScene='';actors.clear();document.body.classList.remove('team-mode','paused-world','offline-world','student-mode');$('ownAstronaut').classList.add('hidden');video.pause();$('management').classList.remove('management-window');$('pilot').innerHTML=savedSoloPilot;delete $('pilot').dataset.team;document.body.style.removeProperty('--roster-height');$('pilot').style.removeProperty('left');$('race').replaceChildren();$('race').style.removeProperty('--rows');$('race').style.removeProperty('--mobile-rows');$('connection').textContent='';lastPhase='';revealSecret=false;}
 const raceAnchor=document.createComment('crew dock');$('race').before(raceAnchor);const stageAnchor=document.createComment('cinematic stage');$('missionStage').before(stageAnchor);
 const video=$('music');
 const homeAudio=document.createElement('audio');homeAudio.src='assets/home-theme.mp3';homeAudio.loop=true;homeAudio.preload='auto';homeAudio.autoplay=!readTeam(storageKey);homeAudio.id='homeMusic';document.body.append(homeAudio);
