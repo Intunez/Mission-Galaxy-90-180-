@@ -198,3 +198,10 @@ body.team-mode main{padding-bottom:calc(var(--roster-height,110px) + 95px)}
 .team-mode #clock{font-size:clamp(24px,3vw,40px);font-weight:900;padding:12px 24px;border:2px solid #ffce71;background:#071626;color:#ffdb88;box-shadow:0 0 20px #ffc76640;position:sticky;top:8px;z-index:20}
 .team-mode #clock.urgent{color:#fff;background:#922d25;border-color:#ffb29e;box-shadow:0 0 24px #ff604c80}
 #timeoutNotice:not([hidden]){position:fixed;inset:35% 10% auto;z-index:10000;text-align:center;padding:40px 20px;border:3px solid #ffd288;border-radius:24px;background:#081629f5;color:#ffd288;font-size:clamp(36px,7vw,88px);font-weight:900;box-shadow:0 0 80px #000b;pointer-events:none}
+
+/* Astronaut identifiers must never resemble scores or ranks. */
+.team-mode #race .team-number{display:none}
+.team-mode #race .team-runner{position:relative;left:auto;bottom:auto;top:auto;display:flex;flex-direction:column;align-items:center;gap:3px}
+.team-mode #race .team-caption{display:flex;flex-direction:column;align-items:center;line-height:15px;white-space:normal;overflow:hidden;max-width:100%;width:100%;font-size:11px}
+.team-mode #race .team-caption b{display:block;font-size:13px;color:#ffe49c;white-space:nowrap}
+.team-mode #race .suit-wrap{height:34px;min-height:34px;width:26px;flex-shrink:0}
