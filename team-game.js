@@ -1,7 +1,7 @@
 import firebaseConfig from './firebase-config.js';
-import * as localEngine from './local-engine.js?v=cinema-7';
+import * as localEngine from './local-engine.js?v=cinema-8';
 window.missionDurations={win:localEngine.WIN,fall:localEngine.FALL};
-import {SparkTransport} from './spark-transport.js?v=cinema-7';
+import {SparkTransport} from './spark-transport.js?v=cinema-8';
 const $=id=>document.getElementById(id);
 const sprite=$('pilot').querySelector('img')?.src||document.querySelector('.hero-pilot')?.src;
 const savedSoloPilot=$('pilot').innerHTML;
@@ -53,7 +53,7 @@ const homeNav=document.createElement('nav');homeNav.className='team-home-nav hid
 const homeButton=document.createElement('button');homeButton.type='button';homeButton.textContent='⌂ Terug naar home';homeButton.className='secondary';homeNav.append(homeButton);const soundToggle=document.createElement('button');soundToggle.type='button';soundToggle.className='secondary sound-toggle';function soundLabel(){soundToggle.textContent=soundEnabled?'Spelgeluiden: aan':'Spelgeluiden: uit';soundToggle.setAttribute('aria-pressed',String(soundEnabled))}soundLabel();soundToggle.onclick=()=>{soundEnabled=!soundEnabled;localStorage.setItem('galaxy-effects',String(soundEnabled));if(!soundEnabled)silenceGameAudio();else unlockGameAudio();soundLabel()};homeNav.append(soundToggle);document.querySelector('header').after(homeNav);
 const resumeButton=document.createElement('button');resumeButton.type='button';resumeButton.textContent='Terug naar mijn teammissie';resumeButton.className='secondary';resumeButton.hidden=!safelyRead(parkedKey);$('home').append(resumeButton);
 const originalShow=window.show;
-window.show=id=>{originalShow(id);setHomeMusic(id==='home');homeNav.classList.toggle('hidden',id==='home'||!session&&!['teacherSetup','join','teacherRecover'].includes(id));resumeButton.hidden=!safelyRead(parkedKey)};
+window.show=id=>{originalShow(id);setHomeMusic(id==='home');if(id==='boardView'&&!session)$('videoDock').append(soundToggle);else homeNav.append(soundToggle);homeNav.classList.toggle('hidden',id==='home'||!session&&!['teacherSetup','join','teacherRecover'].includes(id));resumeButton.hidden=!safelyRead(parkedKey)};
 let leavingHome=false;
 homeButton.onclick=async()=>{
  if(leavingHome)return;
