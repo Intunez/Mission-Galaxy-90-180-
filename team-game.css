@@ -126,3 +126,33 @@ body.team-mode main{padding-bottom:calc(var(--roster-height,110px) + 95px)}
 #missionStage .solo-nameplate{display:block;bottom:calc(100% + 8px);max-width:220px;overflow:hidden;text-overflow:ellipsis}
 .team-mode #pilot .team-caption{left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);max-width:220px;font-size:13px;padding:5px 12px;background:#061a2ff2;border:1px solid #ffda8a;border-radius:20px;color:#ffe8b6;white-space:nowrap;z-index:20}
 #missionStage .stage-label{top:12px;right:14px}
+/* A real falling character and parallax layers in the reference space world. */
+.space-fall-scene{display:none;position:absolute;inset:0;overflow:hidden;z-index:2}
+.cinematic-active #missionStage.falling{height:min(69vh,630px);width:min(1120px,96vw);top:max(10px,calc((100dvh - var(--roster-height,0px) - min(69vh,630px))/2));max-height:calc(100dvh - var(--roster-height,0px) - 25px);border-color:#f8ce8e99;background:#02081b;box-shadow:0 0 0 150vmax #010714ca,0 0 55px #58a5f744}
+.falling .space-fall-scene{display:block}
+.falling .fall-vista{position:absolute;inset:-3%;background:#050a22 url('assets/space-fall-world.webp') center / cover no-repeat;animation:fallCamera 5.2s ease-in forwards;animation-delay:var(--seek,0s)}
+.falling .fall-dust{position:absolute;inset:0;background-image:radial-gradient(circle,#ffe7afbb 0 1px,transparent 2px),radial-gradient(circle,#95caff88 0 1px,transparent 2px);background-size:137px 113px,89px 153px;opacity:.4;animation:fallStardust 5.2s linear forwards;animation-delay:var(--seek,0s)}
+.fall-pilot{position:absolute;left:52%;top:46%;width:24%;z-index:6;transform:translate(-50%,-50%);will-change:transform,left,top,width}
+.fall-pilot>img{display:block;width:100%;height:auto;filter:drop-shadow(0 12px 16px #0009)}
+.fall-name{position:absolute;left:50%;top:-28px;transform:translateX(-50%);color:#fff3ce;background:#07172ccc;border:1px solid #f8d291bb;border-radius:20px;padding:5px 13px;font-size:clamp(11px,1.5vw,17px);font-weight:800;white-space:nowrap;box-shadow:0 0 14px #06142688}
+.falling .fall-pilot{animation:fallIntoInfinity 5.2s cubic-bezier(.2,.2,.6,1) both;animation-delay:var(--seek,0s)}
+.fall-alien{position:absolute;left:var(--ax);top:var(--ay);width:calc(2.1% + (var(--i) / 7)*1.2%);height:auto;z-index:4;opacity:.8;filter:drop-shadow(0 2px 5px #0007)}
+.falling .fall-alien{animation:distantDrift 5.2s ease-in-out both;animation-delay:var(--seek,0s)}
+.fall-rock{position:absolute;left:var(--rx);top:var(--ry);width:calc(4px + var(--i)*1px);height:calc(6px + var(--i)*1.4px);background:linear-gradient(140deg,#bc8149,#382b2b 55%,#101021);clip-path:polygon(15% 0,82% 12%,100% 63%,64% 100%,0 76%);filter:drop-shadow(0 3px 3px #000);z-index:5;opacity:.85}
+.falling .fall-rock{animation:fallingDebris 5.2s ease-in both;animation-delay:var(--seek,0s)}
+.cinematic-active #missionStage.falling #pilot,.cinematic-active #missionStage.falling #rocket,.cinematic-active #missionStage.falling .runway,.cinematic-active #missionStage.falling .hatch,.falling .cinema-beacon,.falling .cinema-portal,.falling .cinema-wave,.falling .cinema-caption,.falling .cinematic-message,.falling .mission-fx{display:none!important}
+.falling .cinema-scenery{z-index:9!important}
+.falling .cinema-verdict{inset:13px 18px auto auto;display:block;text-align:right}
+.cinema-verdict .fall-verdict{font-size:clamp(40px,7vw,76px);color:#ffe5b0;text-shadow:0 2px 15px #000}
+.fall-verdict small{font-size:11px;letter-spacing:1px;margin-top:4px}
+.falling .cinema-total{bottom:18px;text-shadow:0 2px 10px #000,0 0 16px #000}
+.cinematic-active #missionStage.falling .stage-label{z-index:15;top:12px}
+.cinematic-active #missionStage.falling .stage-label span{background:#061426aa;padding:5px 8px;border-radius:4px}
+.paused-world .space-fall-scene *{animation-play-state:paused!important}
+@keyframes fallCamera{from{transform:scale(1.02) rotate(0)}to{transform:scale(1.12) rotate(-2deg)}}
+@keyframes fallIntoInfinity{0%{left:27%;top:27%;width:13%;transform:translate(-50%,-50%) rotate(-30deg);opacity:1}25%{left:48%;top:47%;width:25%;transform:translate(-50%,-50%) rotate(-6deg);opacity:1}58%{left:54%;top:61%;width:23%;transform:translate(-50%,-50%) rotate(14deg);opacity:1}100%{left:59%;top:81%;width:10%;transform:translate(-50%,-50%) rotate(50deg);opacity:.5}}
+@keyframes distantDrift{from{transform:translate(0,0) rotate(-10deg)}to{transform:translate(calc((var(--i) - 3)*4px),calc(15px + var(--i)*4px)) rotate(18deg)}}
+@keyframes fallingDebris{from{transform:translateY(-15px) rotate(0)}to{transform:translate(30px,140px) rotate(130deg)}}
+@keyframes fallStardust{to{background-position:20px -120px,-30px -190px}}
+@media(max-width:600px){.cinematic-active #missionStage.falling{height:65vh}.falling .fall-vista{background-position:42% center}.fall-name{font-size:10px;padding:4px 9px;top:-22px}.fall-alien{min-width:13px}.fall-verdict small{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.falling .space-fall-scene *{animation:none!important}.fall-pilot{left:52%;top:55%;width:24%;transform:translate(-50%,-50%)}.falling .fall-dust,.falling .fall-rock{display:none}}
