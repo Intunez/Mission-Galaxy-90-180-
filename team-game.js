@@ -1,7 +1,7 @@
 import firebaseConfig from './firebase-config.js';
-import * as localEngine from './local-engine.js?v=cinema-8';
+import * as localEngine from './local-engine.js?v=cinema-9';
 window.missionDurations={win:localEngine.WIN,fall:localEngine.FALL};
-import {SparkTransport} from './spark-transport.js?v=cinema-8';
+import {SparkTransport} from './spark-transport.js?v=cinema-9';
 const $=id=>document.getElementById(id);
 const sprite=$('pilot').querySelector('img')?.src||document.querySelector('.hero-pilot')?.src;
 const savedSoloPilot=$('pilot').innerHTML;
@@ -54,6 +54,7 @@ const homeButton=document.createElement('button');homeButton.type='button';homeB
 const resumeButton=document.createElement('button');resumeButton.type='button';resumeButton.textContent='Terug naar mijn teammissie';resumeButton.className='secondary';resumeButton.hidden=!safelyRead(parkedKey);$('home').append(resumeButton);
 const originalShow=window.show;
 window.show=id=>{originalShow(id);setHomeMusic(id==='home');if(id==='boardView'&&!session)$('videoDock').append(soundToggle);else homeNav.append(soundToggle);homeNav.classList.toggle('hidden',id==='home'||!session&&!['teacherSetup','join','teacherRecover'].includes(id));resumeButton.hidden=!safelyRead(parkedKey)};
+const soloMediaRoute=new MutationObserver(()=>{setHomeMusic(!$('home').classList.contains('hidden'));if(!session&&!$('boardView').classList.contains('hidden'))$('videoDock').append(soundToggle);else homeNav.append(soundToggle)});for(const id of ['home','boardView'])soloMediaRoute.observe($(id),{attributes:true,attributeFilter:['class']});
 let leavingHome=false;
 homeButton.onclick=async()=>{
  if(leavingHome)return;
