@@ -1,7 +1,7 @@
 // Gedeelde spelregels voor de lokale modus en het vertrouwde online spelleiderstoestel.
 
 const crypto = {randomInt(max,min){if(min!==undefined){const low=max;max=min;return low+this.randomInt(max-low)}const a=new Uint32Array(1);globalThis.crypto.getRandomValues(a);return a[0]%max;},randomBytes(n){const a=new Uint8Array(n);globalThis.crypto.getRandomValues(a);return {toString:()=>Array.from(a,x=>x.toString(16).padStart(2,'0')).join('')}}};
-const PREVIEW=15000,TURN=15000,REVIEW=4400,LEASE=12000;
+const PREVIEW=15000,TURN=15000,REVIEW=4400,LEASE=12000,WIN=5800,FALL=5200;
 class GameError extends Error { constructor(code,message){super(message);this.code=code;} }
 const fail=(code,message)=>{throw new GameError(code,message)};
 const clone=x=>structuredClone(x);
@@ -16,7 +16,7 @@ const deadlineKey=phase=>({preview:'previewUntil',playing:'turnDeadline',review:
 function pause(r,now,reason){if(['lobby','paused','final'].includes(r.status))return;r.pausedPhase=r.status;const key=deadlineKey(r.status);r.remaining=Math.max(0,(r[key]||now)-now);r.status='paused';r.pauseReason=reason;}
 function preview(r,now){r.board=makeBoard();r.found=[];r.selected=[];r.boardVersion++;r.status='preview';r.previewUntil=now+PREVIEW;r.event=null;}
 function next(r,now){const id=active(r);if(r.teams[id])r.teams[id].turns++;r.cursor++;r.turnSerial++;r.selected=[];r.event=null;if(r.cursor>=r.schedule.length){r.status='final';r.finishedAt=now;return;}if(r.found.length===12){preview(r,now);return;}r.status='playing';r.turnDeadline=now+TURN;}
-function settle(r,now){const id=active(r),t=r.teams[id],sel=r.selected;const correct=sel.length===2&&r.board[sel[0]].pair===r.board[sel[1]].pair;if(correct){t.score+=5;r.found.push(r.board[sel[0]].pair);}else t.score=Math.max(0,t.score-1);r.event={id:++r.eventSerial,kind:correct?'launch':'fall',teamId:id,at:now,score:t.score,delta:correct?5:-1};r.selected=[];r.status='animating';r.animUntil=now+(correct?3300:2700);}
+function settle(r,now){const id=active(r),t=r.teams[id],sel=r.selected;const correct=sel.length===2&&r.board[sel[0]].pair===r.board[sel[1]].pair;if(correct){t.score+=5;r.found.push(r.board[sel[0]].pair);}else t.score=Math.max(0,t.score-1);r.event={id:++r.eventSerial,kind:correct?'launch':'fall',teamId:id,at:now,score:t.score,delta:correct?5:-1};r.selected=[];r.status='animating';r.animUntil=now+(correct?WIN:FALL);}
 function advance(r,now){if(!['lobby','paused','final'].includes(r.status)&&now-r.hostSeen>LEASE){pause(r,now,'De leerkracht heeft de verbinding verloren.');return;}
 if(r.status==='preview'&&now>=r.previewUntil){r.status='playing';r.turnDeadline=now+TURN;}
 else if(r.status==='playing'&&now>=r.turnDeadline){r.selected=[];r.event={id:++r.eventSerial,kind:'timeout',teamId:active(r),at:now,score:r.teams[active(r)].score,delta:0};r.status='animating';r.animUntil=now+2200;}
@@ -44,4 +44,4 @@ else fail('invalid-argument','Onbekende actie.');}
 r.revision++;r.updatedAt=now;return r;}
 // Pair answers never leave the server before they are visible. Closed cards contain IDs only.
 function publicRoom(r,viewer){const out={};for(const key of ['schema','hostUid','hostSeen','createdAt','updatedAt','revision','status','teams','schedule','order','cursor','turnSerial','found','selected','boardVersion','event','eventSerial','previewUntil','turnDeadline','reviewUntil','animUntil','pauseReason','pausedPhase','remaining','finishedAt'])if(r[key]!==undefined)out[key]=r[key];out.active=active(r);out.board=r.board.map((c,i)=>({id:c.id,...(r.status==='preview'||(r.status==='paused'&&r.pausedPhase==='preview')||r.selected.includes(i)||r.found.includes(c.pair)?{text:c.text}:{}),found:r.found.includes(c.pair)}));return out;}
-export {createRoom,reduce,publicRoom,makeBoard,GameError,secretMatches,PREVIEW,TURN,REVIEW,LEASE};
+export {createRoom,reduce,publicRoom,makeBoard,GameError,secretMatches,PREVIEW,TURN,REVIEW,LEASE,WIN,FALL};
