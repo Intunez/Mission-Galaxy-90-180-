@@ -9,7 +9,7 @@ export class SparkTransport {
   if(config.projectId!=='mission-galaxy-3d247'||!config.databaseURL?.startsWith('https://mission-galaxy-3d247-default-rtdb.europe-west1.firebasedatabase.app'))throw Error('Dit spel mag uitsluitend het afzonderlijke Mission Galaxy-project gebruiken.');
   const base='https://www.gstatic.com/firebasejs/10.14.1/';
   const [apps,auths,dbs]=await Promise.all([import(base+'firebase-app.js'),import(base+'firebase-auth.js'),import(base+'firebase-database.js')]);
-  const app=apps.initializeApp(config,'mission-galaxy-spark');const auth=auths.getAuth(app);await auths.setPersistence(auth,auths.browserLocalPersistence);await auth.authStateReady();if(!auth.currentUser)await auths.signInAnonymously(auth);
+  const app=apps.initializeApp(config,'mission-galaxy-spark');const auth=auths.getAuth(app);await auths.setPersistence(auth,auths.browserSessionPersistence);await auth.authStateReady();if(!auth.currentUser)await auths.signInAnonymously(auth);
   return new SparkTransport(auth,dbs,dbs.getDatabase(app));
  }
  constructor(auth,api,db){this.auth=auth;this.api=api;this.db=db;this.code='';this.offset=0;this.online=false;this.everOnline=false;this.mustPause=false;this.cached=null;this.room=null;this.host=false;this.hostOnline=false;this.unsubs=[];this.hostUnsubs=[];this.pending=new Set();this.chain=Promise.resolve();this.waiters=new Set();this.presence=null;this.generation=0;
