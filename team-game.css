@@ -218,3 +218,12 @@ body.team-mode main{padding-bottom:calc(var(--roster-height,110px) + 95px)}
 @keyframes finalBoarding{0%{opacity:1}75%{opacity:1;left:75%;transform:scale(.8)}100%{left:80%;transform:scale(.25);opacity:0}}
 @keyframes finalArrival{0%,77%{opacity:0;transform:scale(.1)}92%,100%{opacity:1;transform:scale(1.2)}}
 @media(prefers-reduced-motion:reduce){#missionStage.final-flight.launching .arrival-flash{animation:none}#missionStage.final-flight.launching #pilot{animation:none;opacity:0}#missionStage.final-flight.launching .final-passenger{animation:none;opacity:1}}
+
+/* User-supplied space bridge replaces the old geometric platform. */
+#missionStage:not(.falling){background:#071528 url('assets/space-bridge.webp') center 40% / cover no-repeat;border:1px solid #86dfff66;border-radius:14px;isolation:isolate}
+#missionStage:not(.launching):not(.falling),.team-mode #missionStage:not(.launching):not(.falling){height:300px}
+#missionStage .runway,#missionStage .hatch{display:none!important}
+#missionStage:not(.launching):not(.falling) #pilot{bottom:39px;z-index:5;filter:drop-shadow(4px 8px 5px #030812aa)}
+#missionStage .stage-label{z-index:10}
+.cinematic-active #missionStage.launching{background-image:url('assets/space-bridge.webp');background-position:center 40%}
+@media(max-width:600px){#missionStage:not(.launching):not(.falling),.team-mode #missionStage:not(.launching):not(.falling){height:250px;background-position:35% center}}
