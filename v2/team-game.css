@@ -457,3 +457,4 @@ body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 .ceremony-podiums{background:linear-gradient(transparent 40%,#06152c99 85%,#06152c)}
 .ceremony-rocket{opacity:1}
 @keyframes ceremonyLanding{0%{transform:translateY(-130%) scale(.7);opacity:1}75%,100%{transform:translateY(0) scale(1);opacity:1}}
+#boardView .tile{white-space:normal;overflow-wrap:normal;word-break:normal;hyphens:none;line-height:1.12}

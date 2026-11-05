@@ -179,3 +179,10 @@ const danceObserver=new MutationObserver(addDanceLimbs);danceObserver.observe($(
 function recordTime(ms){const hundredths=Math.floor(ms/10);return String(Math.floor(hundredths/6000)).padStart(2,'0')+':'+String(Math.floor(hundredths/100)%60).padStart(2,'0')+'.'+String(hundredths%100).padStart(2,'0')}
 function showRecordTarget(){let badge=$('soloRecordTarget');if(!badge){badge=document.createElement('div');badge.id='soloRecordTarget';$('boardView').prepend(badge)}badge.hidden=!!session||!soloRecordToBeat;badge.textContent=soloRecordToBeat?'Te verbeteren record: '+recordTime(soloRecordToBeat):''}
 new MutationObserver(()=>{if(!$('results').classList.contains('hidden')&&!session&&soloRecordToBeat){const previous=document.createElement('p');previous.className='previous-record';previous.textContent='Vorig record: '+recordTime(soloRecordToBeat);$('resultText').querySelector('.previous-record')?.remove();$('resultText').prepend(previous)}}).observe($('results'),{attributes:true,attributeFilter:['class']});
+
+// Fit complete card sentences after reveals and viewport changes.
+let cardFitFrame=0;
+function scheduleCardFit(){cancelAnimationFrame(cardFitFrame);cardFitFrame=requestAnimationFrame(()=>{for(const tile of $('board').querySelectorAll('.tile')){if(!tile.textContent.trim()||!tile.clientWidth||!tile.clientHeight)continue;tile.style.removeProperty('font-size');const style=getComputedStyle(tile);let size=parseFloat(style.fontSize);const range=document.createRange();range.selectNodeContents(tile);const width=tile.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight),height=tile.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom);while(size>9){const bounds=range.getBoundingClientRect();if(bounds.width<=width+1&&bounds.height<=height+1)break;size-=.5;tile.style.fontSize=size+'px'}range.detach()}})}
+new MutationObserver(scheduleCardFit).observe($('board'),{childList:true,subtree:true,characterData:true});
+new ResizeObserver(scheduleCardFit).observe($('board'));
+document.fonts.ready.then(scheduleCardFit);
