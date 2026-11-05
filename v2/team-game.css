@@ -365,3 +365,5 @@ body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 #missionStage.final-flight.launching .cinema-wave.second{animation-delay:calc(3.45s + var(--seek,0s))}
 #missionStage.final-flight.launching .cinema-wave.third{animation-delay:calc(3.7s + var(--seek,0s))}
 #missionStage.final-flight.launching .cinema-streak{animation-duration:1.1s;animation-delay:calc(2.9s + var(--i)*.022s + var(--seek,0s))}
+
+#boardView #clock.urgent{color:#fff;background:#922d25;border:2px solid #ffb29e;box-shadow:0 0 18px #ff604c70}
