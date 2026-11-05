@@ -448,3 +448,12 @@ body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 #missionStage:not(.launching):not(.falling) #pilot .dance-figure,.race-lane:not(.is-active) .dance-figure,#ownAstronaut .dance-figure{animation:intactAstronautDance 7s ease-in-out infinite!important;transform-origin:50% 100%}
 @keyframes intactAstronautDance{0%,100%{transform:translateX(0) rotate(0)}10%{transform:translateX(-5px) rotate(-5deg)}20%{transform:translateX(0) translateY(-4px) rotate(2deg)}30%{transform:translateX(5px) rotate(5deg)}40%{transform:translateX(0) rotate(0)}50%{transform:translateY(-6px) rotate(-3deg)}60%{transform:translateX(4px) rotate(4deg)}70%{transform:translateX(-4px) rotate(-4deg)}80%{transform:translateY(-3px) rotate(2deg)}90%{transform:translateX(2px) rotate(-2deg)}}
 @media(prefers-reduced-motion:reduce){#missionStage:not(.launching):not(.falling) #pilot .dance-figure,.race-lane:not(.is-active) .dance-figure,#ownAstronaut .dance-figure{animation:none!important}}
+
+/* Empty scenery; all podiums and their occupants are live elements. */
+#results .ceremony-arrival{background-image:url('assets/space-fall-world.webp');background-position:center}
+.ceremony-spot.place-1{left:55%;width:20%;height:22%}
+.ceremony-spot.place-2{left:33%;width:20%;height:15%}
+.ceremony-spot.place-3{left:77%;width:20%;height:11%}
+.ceremony-podiums{background:linear-gradient(transparent 40%,#06152c99 85%,#06152c)}
+.ceremony-rocket{opacity:1}
+@keyframes ceremonyLanding{0%{transform:translateY(-130%) scale(.7);opacity:1}75%,100%{transform:translateY(0) scale(1);opacity:1}}
