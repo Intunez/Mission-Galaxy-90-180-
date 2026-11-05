@@ -458,3 +458,5 @@ body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 .ceremony-rocket{opacity:1}
 @keyframes ceremonyLanding{0%{transform:translateY(-130%) scale(.7);opacity:1}75%,100%{transform:translateY(0) scale(1);opacity:1}}
 #boardView .tile{white-space:normal;overflow-wrap:normal;word-break:normal;hyphens:none;line-height:1.12}
+/* Allow long Dutch words to wrap inside narrow cards. */
+#boardView #board .tile{min-width:0;max-width:100%;white-space:normal!important;overflow-wrap:anywhere!important;word-break:normal!important;hyphens:auto!important;text-wrap:wrap;line-height:1.15}
