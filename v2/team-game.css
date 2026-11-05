@@ -464,3 +464,15 @@ body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 #missionStage:not(.launching):not(.falling) #pilot{height:130px!important}
 #missionStage:not(.launching):not(.falling) #pilot>.dance-figure{position:absolute;left:0;bottom:0;height:100px;width:70px}
 #missionStage:not(.launching):not(.falling) #pilot>.solo-nameplate{top:0;bottom:auto;left:50%;transform:translateX(-50%);font-size:18px;line-height:1.2;padding:5px 14px;background:#041528;color:#ffe59b;border:2px solid #ffdc7e;box-shadow:0 2px 10px #000b;max-width:230px;z-index:30}
+
+/* Silver and bronze wait while the winner arrives with the rocket. */
+.arriving .waiting-medallist,.arriving .waiting-medallist .podium-stride{animation:none!important}
+.waiting-medallist .podium-name:empty{display:none}
+.arriving .arriving-winner{animation:winnerRocketArrival 3.2s 1.8s both linear}
+.arriving .arriving-winner .podium-stride{animation:winnerSomersault 3.2s 1.8s both ease-in-out;transform-origin:50% 55%}
+.arriving .arriving-winner .podium-name{animation:winnerNameReveal 3.2s 1.8s both}
+.ceremony-step{display:flex;align-items:center;justify-content:center;line-height:1;font-size:clamp(26px,3.5vw,48px)}
+@keyframes winnerRocketArrival{0%{opacity:0;transform:translate(-510%,70%) scale(.65)}5%{opacity:1;transform:translate(-480%,50%) scale(.7)}30%{opacity:1;transform:translate(-340%,-105%) scale(.9)}65%{opacity:1;transform:translate(-160%,-95%) scale(1)}90%{opacity:1;transform:translate(-50%,0) scale(1)}95%{opacity:1;transform:translate(-50%,3%) scale(1,.94)}100%{opacity:1;transform:translate(-50%,0) scale(1)}}
+@keyframes winnerSomersault{0%,5%{transform:rotate(0)}35%{transform:rotate(300deg)}65%{transform:rotate(620deg)}90%,100%{transform:rotate(720deg)}}
+@keyframes winnerNameReveal{0%,85%{opacity:0}100%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.arriving .arriving-winner,.arriving .arriving-winner .podium-stride,.arriving .arriving-winner .podium-name{animation:none!important}}
