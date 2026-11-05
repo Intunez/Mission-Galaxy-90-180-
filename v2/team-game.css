@@ -367,3 +367,50 @@ body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 #missionStage.final-flight.launching .cinema-streak{animation-duration:1.1s;animation-delay:calc(2.9s + var(--i)*.022s + var(--seek,0s))}
 
 #boardView #clock.urgent{color:#fff;background:#922d25;border:2px solid #ffb29e;box-shadow:0 0 18px #ff604c70}
+
+/* Eight-second choreography: waves, side steps, kicks, disco, then reset. */
+#missionStage:not(.launching):not(.falling) #pilot .dance-figure{animation:spaceDanceRoutine 8s linear infinite!important;transform-origin:50% 100%}
+.dance-figure>.dance-limb{animation-duration:8s;animation-direction:normal;animation-timing-function:linear}
+.dance-limb.left-arm{animation-name:spaceDanceArmLeft}
+.dance-limb.right-arm{animation-name:spaceDanceArmRight}
+.dance-limb.left-leg{animation-name:spaceDanceLegLeft}
+.dance-limb.right-leg{animation-name:spaceDanceLegRight}
+.race-lane:nth-child(3n+2) .dance-figure>.dance-limb{animation-delay:-2s}
+.race-lane:nth-child(3n) .dance-figure>.dance-limb{animation-delay:-4s}
+@keyframes spaceDanceRoutine{
+0%,100%{transform:translateX(0) rotate(0)}
+6.25%{transform:translateX(-7px) rotate(-6deg)}12.5%{transform:translateX(0) rotate(0)}
+18.75%{transform:translateX(7px) rotate(6deg)}25%{transform:translateX(0) rotate(0)}
+31.25%{transform:translateX(-9px) translateY(-3px) rotate(-4deg)}37.5%{transform:translateX(0)}
+43.75%{transform:translateX(9px) translateY(-3px) rotate(4deg)}50%{transform:translateX(0)}
+56.25%{transform:translateY(-7px) rotate(-5deg)}62.5%{transform:translateY(0) rotate(5deg)}
+68.75%{transform:translateY(-7px) rotate(-5deg)}75%{transform:translateY(0) rotate(4deg)}
+81.25%{transform:translateX(-5px) rotate(-8deg)}87.5%{transform:translateX(5px) rotate(8deg)}
+93.75%{transform:translateY(-6px) rotate(0)}
+}
+@keyframes spaceDanceArmLeft{
+0%,25%,50%,100%{transform:rotate(0)}6.25%{transform:rotate(-65deg)}12.5%{transform:rotate(-35deg)}18.75%{transform:rotate(-75deg)}
+31.25%,43.75%{transform:rotate(20deg)}37.5%{transform:rotate(-35deg)}
+56.25%,68.75%{transform:rotate(-85deg)}62.5%,75%{transform:rotate(-45deg)}
+81.25%{transform:rotate(15deg)}87.5%,93.75%{transform:rotate(-95deg)}
+}
+@keyframes spaceDanceArmRight{
+0%,25%,50%,100%{transform:rotate(0)}6.25%{transform:rotate(30deg)}12.5%{transform:rotate(70deg)}18.75%{transform:rotate(35deg)}
+31.25%{transform:rotate(40deg)}37.5%{transform:rotate(-20deg)}43.75%{transform:rotate(60deg)}
+56.25%,68.75%{transform:rotate(85deg)}62.5%,75%{transform:rotate(45deg)}
+81.25%{transform:rotate(95deg)}87.5%{transform:rotate(-15deg)}93.75%{transform:rotate(95deg)}
+}
+@keyframes spaceDanceLegLeft{
+0%,12.5%,25%,37.5%,50%,62.5%,75%,100%{transform:rotate(0)}
+6.25%{transform:rotate(-15deg)}18.75%{transform:rotate(12deg)}31.25%{transform:rotate(-28deg) translateY(-5px)}
+43.75%{transform:rotate(8deg)}56.25%{transform:rotate(-25deg) translateY(-5px)}68.75%{transform:rotate(-20deg)}
+81.25%{transform:rotate(-16deg)}87.5%{transform:rotate(10deg)}93.75%{transform:rotate(-22deg) translateY(-4px)}
+}
+@keyframes spaceDanceLegRight{
+0%,12.5%,25%,37.5%,50%,62.5%,75%,100%{transform:rotate(0)}
+6.25%{transform:rotate(-12deg)}18.75%{transform:rotate(15deg)}31.25%{transform:rotate(-8deg)}
+43.75%{transform:rotate(28deg) translateY(-5px)}56.25%{transform:rotate(20deg)}68.75%{transform:rotate(25deg) translateY(-5px)}
+81.25%{transform:rotate(-10deg)}87.5%{transform:rotate(16deg)}93.75%{transform:rotate(22deg) translateY(-4px)}
+}
+#missionStage:is(.launching,.falling) .dance-figure{animation:none!important}
+@media(prefers-reduced-motion:reduce){#missionStage:not(.launching):not(.falling) #pilot .dance-figure,.dance-figure>.dance-limb{animation:none!important}}
