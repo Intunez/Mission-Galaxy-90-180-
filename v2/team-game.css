@@ -441,3 +441,10 @@ body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 @media(prefers-reduced-motion:reduce){.arriving .podium-walker,.arriving .podium-stride{animation:none}}
 
 #soloRecordTarget{color:#ffdf87;text-align:center;font-weight:800;font-size:16px;padding:3px 8px;flex-shrink:0}#soloRecordTarget[hidden]{display:none}
+
+/* Keep the original silhouette intact: cropped duplicate limbs overlapped the torso. */
+.dance-figure>.dance-body{clip-path:none!important}
+.dance-figure>.dance-limb{display:none!important}
+#missionStage:not(.launching):not(.falling) #pilot .dance-figure,.race-lane:not(.is-active) .dance-figure,#ownAstronaut .dance-figure{animation:intactAstronautDance 7s ease-in-out infinite!important;transform-origin:50% 100%}
+@keyframes intactAstronautDance{0%,100%{transform:translateX(0) rotate(0)}10%{transform:translateX(-5px) rotate(-5deg)}20%{transform:translateX(0) translateY(-4px) rotate(2deg)}30%{transform:translateX(5px) rotate(5deg)}40%{transform:translateX(0) rotate(0)}50%{transform:translateY(-6px) rotate(-3deg)}60%{transform:translateX(4px) rotate(4deg)}70%{transform:translateX(-4px) rotate(-4deg)}80%{transform:translateY(-3px) rotate(2deg)}90%{transform:translateX(2px) rotate(-2deg)}}
+@media(prefers-reduced-motion:reduce){#missionStage:not(.launching):not(.falling) #pilot .dance-figure,.race-lane:not(.is-active) .dance-figure,#ownAstronaut .dance-figure{animation:none!important}}
