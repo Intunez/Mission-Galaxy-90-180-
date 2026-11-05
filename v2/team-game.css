@@ -439,3 +439,5 @@ body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 @keyframes podiumSteps{from{transform:rotate(-7deg) translateY(0)}to{transform:rotate(7deg) translateY(-7px)}}
 @media(max-width:760px){#results:not(.hidden){grid-template-columns:1fr;gap:5px}#results .ceremony-arrival{grid-column:1;grid-row:5;height:280px}#results #resultText p{margin:5px 0}#results .celebrate{display:none}#results #resultActions{grid-row:4}}
 @media(prefers-reduced-motion:reduce){.arriving .podium-walker,.arriving .podium-stride{animation:none}}
+
+#soloRecordTarget{color:#ffdf87;text-align:center;font-weight:800;font-size:16px;padding:3px 8px;flex-shrink:0}#soloRecordTarget[hidden]{display:none}
