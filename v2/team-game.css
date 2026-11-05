@@ -414,3 +414,28 @@ body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 }
 #missionStage:is(.launching,.falling) .dance-figure{animation:none!important}
 @media(prefers-reduced-motion:reduce){#missionStage:not(.launching):not(.falling) #pilot .dance-figure,.dance-figure>.dance-limb{animation:none!important}}
+
+/* Keep the result and controls visible beside the arrival, with live podium walkers. */
+#results:not(.hidden){display:grid;grid-template-columns:minmax(280px,.85fr) minmax(0,1.4fr);gap:8px 24px;align-items:center;margin-top:8px;padding:18px;max-width:1500px}
+#results .ceremony-arrival{grid-column:2;grid-row:1/6;width:100%;height:clamp(300px,60dvh,540px);margin:0;background-position:center}
+#results .celebrate{grid-column:1;font-size:36px;margin:0;line-height:1}
+#results .space-cup{width:56px;height:56px}
+#results #resultTitle{grid-column:1;margin:4px 0;font-size:clamp(24px,2.2vw,34px)}
+#results #resultText{grid-column:1;animation:none!important}
+#results #resultText p{margin:9px 0;font-size:clamp(16px,1.4vw,21px)}
+#results #resultActions{grid-column:1;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:6px 0}
+#results #resultActions button{padding:12px 16px}
+#results #resultText .podium{display:none}
+.ceremony-podiums{position:absolute;inset:0;z-index:3;background:linear-gradient(transparent 25%,#06152cd9 70%,#06152c)}
+.ceremony-spot{position:absolute;bottom:6%;width:22%;height:20%;left:53%;--rise:0px}
+.ceremony-spot.place-2{left:29%;height:13%}.ceremony-spot.place-3{left:77%;height:10%}
+.ceremony-step{position:absolute;inset:0;border:2px solid #ffdb80;background:linear-gradient(135deg,#80622c,#142237 60%,#b18a3e);border-radius:8px 8px 0 0;color:#ffe4a0;font-size:clamp(28px,4vw,58px);font-weight:900;box-shadow:0 0 20px #ffd36a88;text-align:center}
+.podium-walker{position:absolute;bottom:100%;left:50%;width:74px;transform:translateX(-50%);text-align:center}
+.podium-name{display:block;position:absolute;bottom:100%;left:50%;transform:translateX(-50%);padding:4px 9px;border:1px solid #ffda80;border-radius:12px;background:#06182ded;color:#ffdf87;font-weight:800;white-space:nowrap;max-width:180px;overflow:hidden;text-overflow:ellipsis}
+.podium-stride img{display:block;width:74px;height:120px;object-fit:contain}
+.arriving .podium-walker{animation:podiumWalk 3.2s var(--delay) both linear}
+.arriving .podium-stride{animation:podiumSteps .28s var(--delay) 12 alternate ease-in-out}
+@keyframes podiumWalk{0%{transform:translate(-420%,130%)}70%{transform:translate(-120%,110%)}85%{transform:translate(-90%,-12%)}100%{transform:translate(-50%,0)}}
+@keyframes podiumSteps{from{transform:rotate(-7deg) translateY(0)}to{transform:rotate(7deg) translateY(-7px)}}
+@media(max-width:760px){#results:not(.hidden){grid-template-columns:1fr;gap:5px}#results .ceremony-arrival{grid-column:1;grid-row:5;height:280px}#results #resultText p{margin:5px 0}#results .celebrate{display:none}#results #resultActions{grid-row:4}}
+@media(prefers-reduced-motion:reduce){.arriving .podium-walker,.arriving .podium-stride{animation:none}}
