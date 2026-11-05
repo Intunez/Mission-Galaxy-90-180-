@@ -337,3 +337,31 @@ body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 @keyframes bigRightLeg{from{transform:rotate(-17deg)}to{transform:rotate(23deg) translateY(-3px)}}
 @keyframes astronautGroove{0%{transform:translateX(-5px) rotate(-5deg)}50%{transform:translateX(0) translateY(-4px) rotate(0)}100%{transform:translateX(5px) rotate(5deg)}}
 @media(prefers-reduced-motion:reduce){#missionStage:not(.launching):not(.falling) #pilot .dance-figure{animation:none!important}}
+
+/* The final flight and arrival ceremony keep their original duration. */
+.ceremony-arrival{position:relative;height:clamp(280px,48vw,540px);margin:-10px -10px 24px;border:1px solid #ffdf87;border-radius:16px;overflow:hidden;background:#07122c url('assets/final-ceremony.webp') center/cover;isolation:isolate}
+.ceremony-rocket{position:absolute;height:79%;width:auto;left:15%;bottom:13%;filter:drop-shadow(0 0 22px #7be6ff);opacity:0}
+.arriving .ceremony-rocket{animation:ceremonyLanding 1.8s ease-out both}
+.ceremony-thrust{position:absolute;left:24%;bottom:8%;width:9%;height:15%;background:radial-gradient(ellipse,#fff,#75e8ff 35%,transparent 70%);filter:blur(5px);opacity:0}
+.arriving .ceremony-thrust{animation:ceremonyEngine 1.8s both}
+.ceremony-beams{position:absolute;inset:0;background:conic-gradient(from -20deg at 72% 85%,transparent 0deg,#ffda6830 8deg,transparent 14deg,#fff1a530 24deg,transparent 32deg);mix-blend-mode:screen;animation:ceremonyLights 1.5s ease-in-out infinite alternate}
+.ceremony-confetti{position:absolute;left:var(--x);top:-20px;width:7px;height:13px;background:var(--color);opacity:0;pointer-events:none}
+.arriving .ceremony-confetti{animation:ceremonyConfetti 2s calc(0.9s + var(--i)*0.0175s) linear infinite}
+#results .final-ranking,#results #resultTitle,#results #resultText{position:relative;z-index:2}
+#results:not(.hidden) #resultText{animation:scoreArrival 0.3s 1.4s both}
+@keyframes ceremonyLanding{0%{transform:translateY(-130%) scale(.7);opacity:1}75%{transform:translateY(0) scale(1);opacity:1}90%{opacity:1}100%{transform:translateY(0);opacity:0}}
+@keyframes ceremonyEngine{0%,80%{opacity:1;transform:scaleY(1.4)}100%{opacity:0;transform:scaleY(.2)}}
+@keyframes ceremonyLights{to{transform:rotate(8deg) scale(1.1);opacity:.6}}
+@keyframes ceremonyConfetti{0%{opacity:0;transform:translateY(0) rotate(0)}10%{opacity:1}100%{opacity:0;transform:translateY(600px) rotate(650deg)}}
+@keyframes scoreArrival{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.ceremony-arrival *{animation:none!important}.ceremony-rocket,.ceremony-thrust{display:none}#results:not(.hidden) #resultText{animation:none}}
+
+
+#missionStage.final-flight.launching #rocket{animation-duration:2.8s;animation-delay:calc(1.4s + var(--seek,0s))}
+#missionStage.final-flight.launching #pilot{animation-duration:1.4s}
+#missionStage.final-flight.launching .final-passenger,#missionStage.final-flight.launching .arrival-flash{animation-duration:5.8s}
+#missionStage.final-flight.launching .cinema-smoke{animation-duration:2.2s;animation-delay:calc(1.3s + var(--i)*.12s + var(--seek,0s))}
+#missionStage.final-flight.launching .cinema-wave{animation-duration:1.7s;animation-delay:calc(3.2s + var(--seek,0s))}
+#missionStage.final-flight.launching .cinema-wave.second{animation-delay:calc(3.45s + var(--seek,0s))}
+#missionStage.final-flight.launching .cinema-wave.third{animation-delay:calc(3.7s + var(--seek,0s))}
+#missionStage.final-flight.launching .cinema-streak{animation-duration:1.1s;animation-delay:calc(2.9s + var(--i)*.022s + var(--seek,0s))}
