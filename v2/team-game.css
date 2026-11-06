@@ -523,3 +523,18 @@ body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 }
 @media(min-width:601px) and (max-width:899px){#boardView #boardLayout{height:480px;grid-template-columns:minmax(0,1fr) minmax(0,.8fr)}#boardView #board{height:100%}}
 @media(max-width:600px){#boardView #board{height:540px;flex:none}#boardView #videoDock:not(.expanded){display:flex;width:100%;height:260px;flex:none}#boardView #videoDock:not(.expanded) video{width:100%!important;grid-area:auto}}
+
+/* Compact crew cards free the bridge while keeping each suit easy to recognise. */
+.team-mode #race{grid-template-rows:repeat(var(--roster-rows,1),72px);padding:23px 10px 5px;gap:0 8px}
+.team-mode #race .race-lane{height:68px;padding:3px 6px}
+.team-mode #race .team-runner{height:100%;width:100%;display:flex;flex-direction:row;justify-content:center;align-items:center;gap:7px;max-width:100%}
+.team-mode #race .suit-wrap{width:43px;height:60px;min-height:60px;flex:none}
+.team-mode #race .team-caption{width:auto;min-width:0;flex:1;align-items:flex-start;font-size:12px;line-height:18px;text-align:left}
+.team-mode #race .team-caption b{font-size:14px}
+@media(min-width:900px){
+#boardView #boardLayout{height:clamp(320px,calc(100dvh - 420px - var(--roster-height,0px)),500px);min-height:320px}
+#boardView #missionStage:not(.launching):not(.falling){flex:0 0 180px;height:180px;min-height:180px}
+#missionStage:not(.launching):not(.falling) #pilot{height:158px!important;width:86px;bottom:10%!important}
+#missionStage:not(.launching):not(.falling) #pilot>.dance-figure{width:86px;height:128px}
+#missionStage:not(.launching):not(.falling) #pilot .suit-wrap{width:86px;height:128px}
+}
