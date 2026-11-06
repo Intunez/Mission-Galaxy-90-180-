@@ -1,7 +1,7 @@
 import firebaseConfig from './firebase-config.js';
-import * as localEngine from './local-engine.js?v=v20-approval2';
+import * as localEngine from './local-engine.js?v=v20-approval3';
 window.missionDurations={win:localEngine.WIN,fall:localEngine.FALL};
-import {SparkTransport} from './spark-transport.js?v=v20-approval2';
+import {SparkTransport} from './spark-transport.js?v=v20-approval3';
 const $=id=>document.getElementById(id);
 $('connection').textContent='';
 const sprite=$('pilot').querySelector('img')?.src||document.querySelector('.hero-pilot')?.src;
