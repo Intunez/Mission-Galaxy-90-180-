@@ -1,6 +1,6 @@
 'use strict';
 const crypto = require('node:crypto');
-const PREVIEW=20000,TURN=15000,REVIEW=2000,WRONG_REVIEW=2000,LEASE=12000,WIN=2900,FALL=2600,FINAL_WIN=5800,RESCAN_EVERY=60000,RESCAN=10000;
+const PREVIEW=20000,TURN=30000,REVIEW=2000,WRONG_REVIEW=2000,LEASE=12000,WIN=2900,FALL=2600,FINAL_WIN=5800,RESCAN_EVERY=60000,RESCAN=10000;
 class GameError extends Error { constructor(code,message){super(message);this.code=code;} }
 const fail=(code,message)=>{throw new GameError(code,message)};
 const clone=x=>structuredClone(x);
