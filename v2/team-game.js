@@ -151,7 +151,7 @@ $('missionPoints').textContent='TOTAAL: '+(active?.score||0)+' PUNTEN';}
 async function choose(index){if(actionBusy||!canPick())return;actionBusy=true;try{await perform('pick',{index,turnSerial:state.turnSerial,boardVersion:state.boardVersion});}catch(e){notify(e.message)}finally{actionBusy=false}}
 function renderRace(){
  const entries=sortedTeams(),race=$('race');
- const rows=Math.ceil(entries.length/7);document.body.style.setProperty('--roster-height',(rows*72+28)+'px');race.style.setProperty('--roster-rows',rows);race.setAttribute('aria-label','Alle teams en hun astronauten');
+ const rows=Math.ceil(entries.length/7);document.body.style.setProperty('--roster-height',(rows*48+24)+'px');race.style.setProperty('--roster-rows',rows);race.setAttribute('aria-label','Alle teams en hun astronauten');
  const present=new Set();for(const [id,t] of entries){
   present.add(id);let lane=race.querySelector(`[data-lane="${id}"]`);if(!lane){lane=document.createElement('div');lane.className='race-lane';lane.dataset.lane=id;race.append(lane)}
   lane.querySelector('.crew-rank')?.remove();const orderedIndex=entries.findIndex(([key])=>key===id);if(race.children[orderedIndex]!==lane)race.insertBefore(lane,race.children[orderedIndex]||null);const node=actor(id,t),active=id===state.active;node.classList.remove('team-leader');lane.classList.toggle('is-active',active);lane.classList.toggle('is-launching',active&&state.status==='animating'&&state.event?.kind==='launch');lane.classList.toggle('is-falling',active&&state.status==='animating'&&state.event?.kind==='fall');lane.setAttribute('aria-current',active?'true':'false');lane.title=t.name+(active?' · Aan de beurt':' · Wacht op de beurt');if(node.parentElement!==lane)lane.append(node);

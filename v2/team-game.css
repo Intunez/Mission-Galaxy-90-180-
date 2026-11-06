@@ -538,3 +538,11 @@ body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 #missionStage:not(.launching):not(.falling) #pilot>.dance-figure{width:86px;height:128px}
 #missionStage:not(.launching):not(.falling) #pilot .suit-wrap{width:86px;height:128px}
 }
+
+/* Slim crew strip: readable names and scores alongside the astronaut. */
+.team-mode #race{grid-template-rows:repeat(var(--roster-rows,1),48px);padding:20px 8px 4px;border-radius:10px}
+.team-mode #race .race-lane{height:45px;padding:1px 5px}
+.team-mode #race .team-runner{gap:5px}
+.team-mode #race .suit-wrap{width:30px;height:42px;min-height:42px}
+.team-mode #race .team-caption{font-size:12px;line-height:16px}
+.team-mode #race .team-caption b{font-size:13px}
