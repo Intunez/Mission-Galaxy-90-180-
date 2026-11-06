@@ -546,3 +546,7 @@ body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 .team-mode #race .suit-wrap{width:30px;height:42px;min-height:42px}
 .team-mode #race .team-caption{font-size:12px;line-height:16px}
 .team-mode #race .team-caption b{font-size:13px}
+
+/* Measure a real wrapping label, not the grid's anonymous text item. */
+#boardView #board .tile{display:flex;align-items:center;justify-content:center;padding:4px 5px;transform:none}
+#boardView #board .card-text{display:block;flex:0 1 auto;min-width:0;max-width:100%;white-space:normal;overflow-wrap:normal;word-break:normal;hyphens:none;line-height:1.12}
