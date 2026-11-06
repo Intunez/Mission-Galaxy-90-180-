@@ -476,3 +476,17 @@ body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 @keyframes winnerSomersault{0%,5%{transform:rotate(0)}35%{transform:rotate(300deg)}65%{transform:rotate(620deg)}90%,100%{transform:rotate(720deg)}}
 @keyframes winnerNameReveal{0%,85%{opacity:0}100%{opacity:1}}
 @media(prefers-reduced-motion:reduce){.arriving .arriving-winner,.arriving .arriving-winner .podium-stride,.arriving .arriving-winner .podium-name{animation:none!important}}
+
+#nameApprovals{margin:15px 0}#nameApprovals:empty{display:none}.approval-row{display:flex;align-items:center;flex-wrap:wrap;gap:10px;padding:10px;margin:8px 0;background:#061b30;border:1px solid #ffda7b88;border-radius:9px}.approval-row strong{flex:1;min-width:160px;overflow-wrap:anywhere}.approval-row button{padding:9px 12px;font-size:15px}#nameApprovals input{display:block;margin:8px 0;max-width:400px}
+
+/* Every correct pair visibly boards the astronaut and launches into space. */
+.cinematic-active #missionStage.launching:not(.final-flight) #pilot{animation:finalBoarding .7s ease-in forwards;animation-delay:var(--seek,0s)}
+.cinematic-active #missionStage.launching:not(.final-flight) #rocket{width:130px;height:245px;bottom:35px;animation:clearSpaceLaunch 2.15s cubic-bezier(.55,.05,.8,.4) both;animation-delay:calc(.7s + var(--seek,0s))}
+#missionStage.launching:not(.final-flight) .final-passenger{display:block;position:absolute;top:25%;left:30%;width:40%;height:32%;border-radius:50%;overflow:hidden;background:#05243a;border:2px solid #9af4ff;z-index:6;animation:passengerBoard 2.9s linear both;animation-delay:var(--seek,0s);box-shadow:0 0 18px #9defff}
+#missionStage.launching:not(.final-flight) .rocket-flame{height:100%;filter:drop-shadow(0 0 22px #ffcb73)}
+@keyframes clearSpaceLaunch{0%{transform:translateY(0) scale(1);opacity:1}15%{transform:translateY(5px) scale(1.06);opacity:1}35%{transform:translateY(-35px) scale(1.1);opacity:1}65%{transform:translateY(-220px) scale(.85);opacity:1}100%{transform:translateY(-110vh) scale(.25);opacity:0}}
+@media(prefers-reduced-motion:reduce){.cinematic-active #missionStage.launching:not(.final-flight) #rocket{animation:none}#missionStage.launching:not(.final-flight) .final-passenger{animation:none;opacity:1}}
+/* Clean crew silhouettes; retain suit colours without the blurry glow. */
+.team-mode #race .team-runner,.team-mode #race .suit-wrap,.team-mode #race .dance-figure{filter:none!important}
+.team-mode #race .suit-wrap{width:34px;height:48px;min-height:48px}
+.team-mode #race .suit-wrap img{filter:hue-rotate(var(--hue))!important;image-rendering:auto}

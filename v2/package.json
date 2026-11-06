@@ -1,1 +1,1 @@
-{"name":"mission-galaxy-spark","private":true,"type":"module","scripts":{"test":"node --test engine/engine.test.cjs tests/spark-engine.test.cjs tests/solo-v2.test.cjs","sync-engine":"node scripts/sync-local-engine.cjs"}}
+{"name":"mission-galaxy-spark","private":true,"type":"module","scripts":{"test":"node --test engine/engine.test.cjs tests/spark-engine.test.cjs tests/solo-v2.test.cjs tests/team21-approval.test.cjs","sync-engine":"node scripts/sync-local-engine.cjs"}}
