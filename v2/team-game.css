@@ -503,3 +503,6 @@ body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 .team-mode #race .race-lane{position:relative;height:90px;box-sizing:border-box;padding-top:18px}
 .crew-rank{position:absolute;top:3px;left:8px;color:#ffe6a2;background:#061526;border:1px solid #eecb76;border-radius:6px;padding:1px 7px;font-size:16px;line-height:19px;font-weight:900;z-index:5}
 .team-mode #race .team-leader:before{display:none}
+#yourTurnNotice{display:none;flex-shrink:0;box-sizing:border-box;text-align:center;margin:3px 0 10px;padding:7px 16px;border:2px solid #ffe18a;border-radius:10px;background:#102c40;color:#ffe79f;font-size:clamp(22px,2.5vw,32px);font-weight:950;line-height:1.15;letter-spacing:1px;box-shadow:0 0 18px #ffd66b55}
+.my-turn-board #yourTurnNotice{display:block}
+.offline-world #yourTurnNotice{display:none}
