@@ -490,3 +490,8 @@ body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 .team-mode #race .team-runner,.team-mode #race .suit-wrap,.team-mode #race .dance-figure{filter:none!important}
 .team-mode #race .suit-wrap{width:34px;height:48px;min-height:48px}
 .team-mode #race .suit-wrap img{filter:hue-rotate(var(--hue))!important;image-rendering:auto}
+
+/* The active team's own card board lights up for the duration of its turn. */
+.my-turn-board #board{outline:3px solid #ffe598;outline-offset:5px;border-radius:10px;box-shadow:0 0 14px #ffdf82,0 0 34px #ffba3866;animation:activeBoardGlow 1.5s ease-in-out infinite alternate}
+@keyframes activeBoardGlow{from{box-shadow:0 0 12px #ffdf82,0 0 26px #ffba3855}to{box-shadow:0 0 22px #ffe9a1,0 0 40px #ffca5c99}}
+@media(prefers-reduced-motion:reduce){.my-turn-board #board{animation:none}}
