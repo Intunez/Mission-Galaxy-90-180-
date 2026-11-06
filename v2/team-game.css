@@ -495,3 +495,5 @@ body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 .my-turn-board #board{outline:3px solid #ffe598;outline-offset:5px;border-radius:10px;box-shadow:0 0 14px #ffdf82,0 0 34px #ffba3866;animation:activeBoardGlow 1.5s ease-in-out infinite alternate}
 @keyframes activeBoardGlow{from{box-shadow:0 0 12px #ffdf82,0 0 26px #ffba3855}to{box-shadow:0 0 22px #ffe9a1,0 0 40px #ffca5c99}}
 @media(prefers-reduced-motion:reduce){.my-turn-board #board{animation:none}}
+/* Team numbers are internal identifiers, never labels on the astronaut. */
+.team-number{display:none!important}
