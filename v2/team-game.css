@@ -506,3 +506,20 @@ body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 #yourTurnNotice{display:none;flex-shrink:0;box-sizing:border-box;text-align:center;margin:3px 0 10px;padding:7px 16px;border:2px solid #ffe18a;border-radius:10px;background:#102c40;color:#ffe79f;font-size:clamp(22px,2.5vw,32px);font-weight:950;line-height:1.15;letter-spacing:1px;box-shadow:0 0 18px #ffd66b55}
 .my-turn-board #yourTurnNotice{display:block}
 .offline-world #yourTurnNotice{display:none}
+
+/* Six rows of four, with an uncropped film and no nested scroll containers. */
+#boardView #board{grid-template-columns:repeat(4,minmax(0,1fr))!important;grid-template-rows:repeat(6,minmax(0,1fr))!important;margin:0;box-sizing:border-box;min-width:0}
+#boardView #board .tile{height:100%!important;min-height:0!important;margin:0;overflow:hidden}
+#boardView #boardLayout{overflow:visible!important;min-width:0}
+#boardView #videoDock:not(.expanded){position:relative;display:flex;flex-direction:column;box-sizing:border-box;min-height:0;max-height:none;overflow:visible!important;align-self:stretch;gap:4px}
+#boardView #videoDock:not(.expanded) video{flex:1 1 0;width:100%!important;height:0!important;min-height:0;max-height:none!important;aspect-ratio:auto;object-fit:contain}
+#boardView #videoDock:not(.expanded) button,#boardView #videoDock:not(.expanded) details{flex:0 0 auto;margin:0}
+#boardView #videoDock:not(.expanded) details[open]{position:absolute;inset:0;z-index:40;background:#06182b;padding:12px;border:1px solid #83d8ed;border-radius:8px;overflow:auto}
+@media(min-width:900px){
+#boardView>.panel{height:auto;min-height:0}
+#boardView #boardLayout{flex:none;height:clamp(360px,calc(100dvh - 370px - var(--roster-height,0px)),580px);min-height:360px;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);align-items:stretch}
+#boardView #board{height:100%;gap:6px}
+#boardView #missionStage:not(.launching):not(.falling){flex:0 0 140px;height:140px;min-height:140px}
+}
+@media(min-width:601px) and (max-width:899px){#boardView #boardLayout{height:480px;grid-template-columns:minmax(0,1fr) minmax(0,.8fr)}#boardView #board{height:100%}}
+@media(max-width:600px){#boardView #board{height:540px;flex:none}#boardView #videoDock:not(.expanded){display:flex;width:100%;height:260px;flex:none}#boardView #videoDock:not(.expanded) video{width:100%!important;grid-area:auto}}
