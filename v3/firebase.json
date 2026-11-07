@@ -1,0 +1,19 @@
+{
+  "database": {
+    "rules": "firebase-database.rules.json",
+    "predeploy": [
+      "node scripts/check-project.cjs"
+    ]
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "database": {
+      "port": 9000
+    },
+    "ui": {
+      "enabled": true
+    }
+  }
+}
