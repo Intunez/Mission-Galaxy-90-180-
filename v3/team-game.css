@@ -590,3 +590,34 @@ body:has(#boardView:not(.hidden)) .music-controls{bottom:3px;padding:3px 7px}
 
 /* Solo uses four rows. The team board retains six rows. */
 body:not(.team-mode) #boardView #board{grid-template-rows:repeat(4,minmax(0,1fr))!important}
+
+.rocket-nameplate {
+  display: none;
+  position: absolute;
+  top: 38%;
+  right: 80%;
+  transform: translateY(-50%);
+  z-index: 7;
+  padding: 5px 11px;
+  border: 1px solid #ffdf87;
+  border-radius: 9px;
+  background: #06182d;
+  color: #ffe49c;
+  font-size: clamp(13px, 1.45vw, 20px);
+  font-weight: 800;
+  width: max-content;
+  max-width: min(210px, 34vw);
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+#missionStage.launching .rocket-nameplate:not(:empty) {
+  display: block;
+  animation: passengerBoard 2.9s linear both;
+  animation-delay: var(--seek, 0s);
+}
+#missionStage.final-flight.launching .rocket-nameplate {
+  animation-duration: 5.8s;
+}
+@media (prefers-reduced-motion: reduce) {
+  #missionStage.launching .rocket-nameplate:not(:empty) { animation: none; }
+}
